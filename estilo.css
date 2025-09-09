@@ -232,40 +232,28 @@ footer p {
         width: 50px;
     }
 }
-/* BOTÓN DE INSTALACIÓN MODERNO */
 .install-btn {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.1rem;
+    display: none; /* por defecto oculto */
+    padding: 12px 25px;
+    font-size: 1.1em;
     font-weight: 700;
     color: #fff;
-    background: linear-gradient(90deg, #13af88, #5fff74);
+    background: linear-gradient(90deg, #13af88, #0f8f5a);
     border: none;
-    border-radius: 12px; /* bordes suaves, no redondo */
-    padding: 14px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Hover: efecto de elevación y ligero cambio de color */
 .install-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-    background: linear-gradient(90deg, #0f8f6b, #45e16c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
-/* Efecto clic */
-.install-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-/* Ocultar botón en PC */
-@media (min-width: 992px) {
+/* Mostrar solo en móviles y tablets */
+@media (max-width: 1024px) {
     .install-btn {
-        display: none;
+        display: inline-block;
     }
 }
