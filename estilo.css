@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+}
+
+body {
+    /* Fondo animado con gradiente */
+    background: linear-gradient(270deg, #5fff74, #ffc371, #47c6ff, #0ff32d);
+    background-size: 800% 800%;
+    animation: gradientAnimation 15s ease infinite;
+
+    /* Flex para centrar contenido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* Animación del fondo */
+@keyframes gradientAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* ================= RADIO PLAYER ================= */
+.radio-player {
+    background: rgba(87, 87, 87, 0.589);
+    padding: 30px 25px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    width: 450px;
+    max-width: 95%;
+    backdrop-filter: blur(12px);
+    color: #fff;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.radio-player h1 {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.radio-player .radio-image img {
+    width: 150px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: linear-gradient(145deg, #ffffff, #e0e0e0);
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3), -5px -5px 15px rgba(255,255,255,0.2);
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.15);
+    box-shadow: 8px 8px 20px rgba(0,0,0,0.5), -8px -8px 20px rgba(255,255,255,0.3);
+}
+
+.btn svg {
+    width: 35px;
+    height: 35px;
+    fill: #1e3c72;
+}
+
+#status {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #ff3636;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+}
+
+.volume-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.volume-slider {
+    width: 160px;
+    height: 6px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #1f88c5, #3dfff5);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: 0.2s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:768px){
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .radio-player {
+        width: 90%;
+        padding: 20px;
+        position: relative;
+        transform: none;
+        margin: 0;
+    }
+    .radio-player .radio-image img {
+        width: 120px;
+    }
+    .btn {
+        width: 60px;
+        height: 60px;
+    }
+    .btn svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width:480px){
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .radio-player .radio-image img {
+        width: 100px;
+    }
+}
