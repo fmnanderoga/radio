@@ -18,6 +18,35 @@
 
     <!-- CSS Propio -->
     <link rel="stylesheet" href="estilo.css">
+
+    <style>
+        /* Estilo botón instalación */
+        .install-btn {
+            display: none; /* oculto por defecto */
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(90deg, #13af88, #0f8f5a);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Mostrar solo en móviles y tablets */
+        @media (max-width: 1024px) {
+            .install-btn {
+                display: inline-block;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -73,7 +102,6 @@
     <button id="installBtn" class="install-btn">📲 Instalar App</button>
 </div>
 
-
 <!-- FOOTER -->
 <footer style="background-color: rgba(255,255,255,0.8); color: #000; border-top: 2px solid rgba(255,255,255,0.2); padding:30px 0;">
     <div class="container text-center">
@@ -108,9 +136,6 @@
 <script>
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
-
-// Mostrar el botón siempre
-installBtn.style.display = "inline-block";
 
 // Función para chequear si ya está instalada
 function checkIfInstalled() {
