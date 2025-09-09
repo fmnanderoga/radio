@@ -1,52 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM Ñanderoga</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FM Ñanderoga</title>
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#5fff74">
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5fff74">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- CSS Propio -->
-    <link rel="stylesheet" href="estilo.css">
+<!-- CSS Propio -->
+<link rel="stylesheet" href="estilo.css">
 
-    <style>
-        /* Estilo botón instalación */
+<style>
+    /* Estilo botón instalación */
+    .install-btn {
+        padding: 12px 25px;
+        font-size: 1.1em;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(90deg, #13af88, #0f8f5a);
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .install-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Mostrar solo en móviles y tablets */
+    @media (min-width: 1025px) {
         .install-btn {
-            display: none; /* oculto por defecto */
-            padding: 12px 25px;
-            font-size: 1.1em;
-            font-weight: 700;
-            color: #fff;
-            background: linear-gradient(90deg, #13af88, #0f8f5a);
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: none !important;
         }
-
-        .install-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-
-        /* Mostrar solo en móviles y tablets */
-        @media (max-width: 1024px) {
-            .install-btn {
-                display: inline-block;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
@@ -137,46 +136,35 @@
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
 
-// Función para chequear si ya está instalada
-function checkIfInstalled() {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
-                      || window.navigator.standalone === true;
+// Detectar si el dispositivo es móvil/tablet
+const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
 
-    if (isStandalone) {
-        installBtn.innerText = "✅";
-        installBtn.onclick = () => alert("La app ya está instalada.");
-        return true;
-    }
+// Mostrar el botón solo si es móvil y no está instalada
+function updateInstallButton() {
+    const isInstalled = window.matchMedia('(display-mode: standalone)').matches 
+                    || window.navigator.standalone === true;
 
-    if ('getInstalledRelatedApps' in navigator) {
-        navigator.getInstalledRelatedApps().then(apps => {
-            if (apps.length > 0) {
-                installBtn.innerText = "✅";
-                installBtn.onclick = () => alert("La app ya está instalada.");
-            }
-        });
+    if (isInstalled || !isMobile) {
+        installBtn.style.display = "none"; // ocultar si ya instalada o no es móvil
+    } else {
+        installBtn.style.display = "inline-block"; // mostrar si no instalada
     }
-    return false;
 }
 
-// Guardamos el evento para Android y PC
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    updateInstallButton();
 });
 
-// Acción al hacer clic
 installBtn.onclick = async () => {
-    if (checkIfInstalled()) return;
-
     if (deferredPrompt) {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         deferredPrompt = null;
 
         if (outcome === "accepted") {
-            installBtn.innerText = "✅ Instalado";
-            installBtn.onclick = () => alert("La app ya está instalada.");
+            installBtn.style.display = "none";
         }
     } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
         alert("Para instalar en iPhone:\n1. Tocá el botón 'Compartir' (⬆️)\n2. Elegí 'Agregar a pantalla de inicio'");
@@ -185,7 +173,8 @@ installBtn.onclick = async () => {
     }
 };
 
-checkIfInstalled();
+// Inicializar al cargar
+updateInstallButton();
 </script>
 
 <!-- Service Worker -->
@@ -199,4 +188,3 @@ if ('serviceWorker' in navigator) {
 
 </body>
 </html>
-
