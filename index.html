@@ -143,7 +143,7 @@ function checkIfInstalled() {
                       || window.navigator.standalone === true;
 
     if (isStandalone) {
-        installBtn.innerText = "✅ Instalado";
+        installBtn.innerText = "✅";
         installBtn.onclick = () => alert("La app ya está instalada.");
         return true;
     }
@@ -151,7 +151,7 @@ function checkIfInstalled() {
     if ('getInstalledRelatedApps' in navigator) {
         navigator.getInstalledRelatedApps().then(apps => {
             if (apps.length > 0) {
-                installBtn.innerText = "✅ Instalado";
+                installBtn.innerText = "✅";
                 installBtn.onclick = () => alert("La app ya está instalada.");
             }
         });
@@ -199,3 +199,4 @@ if ('serviceWorker' in navigator) {
 
 </body>
 </html>
+
