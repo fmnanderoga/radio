@@ -3,23 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Open Graph para redes sociales -->
+
+<!-- Título y descripción SEO -->
+<title>FM Ñanderoga 106.5 - Radio educativa del ISG</title>
+<meta name="description" content="FM Ñanderoga 106.5 - Radio socio educativa del ISG con programas en vivo y contenido educativo.">
+<meta name="keywords" content="FM Ñanderoga, radio, ISG, programas, educación, música">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Facebook -->
 <meta property="og:title" content="FM Ñanderoga 106.5 - Radio educativa del ISG">
 <meta property="og:description" content="Radio socio educativa del ISG con programas en vivo y contenido educativo.">
 <meta property="og:image" content="https://fmnanderoga.netlify.app/img/logo (2).png">
 <meta property="og:url" content="https://fmnanderoga.netlify.app/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FM Ñanderoga 106.5 - Radio educativa del ISG">
+<meta name="twitter:description" content="Radio socio educativa del ISG con programas en vivo y contenido educativo.">
+<meta name="twitter:image" content="https://fmnanderoga.netlify.app/img/logo (2).png">
 
-<title>FM Ñanderoga</title>
-
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#5fff74">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Favicon -->
+<link rel="icon" href="img/logo (2).png" type="image/png">
+<link rel="apple-touch-icon" href="img/logo (2).png">
 
+<!-- Estilos y fuentes -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link rel="icon" href="img/logo (2).png" type="image/x-icon">
 <link rel="stylesheet" href="estilo.css">
 
 <style>
@@ -98,7 +113,6 @@
     <button id="installBtn" class="install-btn mb-3">📲 Instalar App</button>
 </main>
 
-
 <footer style="background-color: rgba(255,255,255,0.8); color: #000; border-top: 2px solid rgba(255,255,255,0.2); padding:30px 0;">
     <div class="container text-center">
         <h5 style="color:#13af88;">FM Ñanderoga</h5>
@@ -124,52 +138,49 @@
       else { bsCollapse.hide(); }
     });
   });
+
+  // PWA install
+  let deferredPrompt;
+  const installBtn = document.getElementById("installBtn");
+  const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  function updateInstallButton() {
+      const isInstalled = window.matchMedia('(display-mode: standalone)').matches 
+                      || window.navigator.standalone === true;
+      if (isInstalled || !isMobile) installBtn.style.display = "none";
+      else installBtn.style.display = "inline-block";
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      updateInstallButton();
+  });
+
+  installBtn.onclick = async () => {
+      if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (outcome === "accepted") installBtn.style.display = "none";
+      } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+          alert("Para instalar en iPhone:\n1. Tocá el botón 'Compartir' (⬆️)\n2. Elegí 'Agregar a pantalla de inicio'");
+      } else {
+          alert("Tu navegador no soporta instalación directa.");
+      }
+  };
+
+  updateInstallButton();
+
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registrado', reg))
+          .catch(err => console.log('Error SW:', err));
+      });
+  }
 </script>
-
-<script>
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
-// Detectar si el dispositivo es móvil/tablet
-const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
-
-// Mostrar el botón solo si es móvil y no está instalada
-function updateInstallButton() {
-    const isInstalled = window.matchMedia('(display-mode: standalone)').matches 
-                    || window.navigator.standalone === true;
-
-    if (isInstalled || !isMobile) {
-        installBtn.style.display = "none"; // ocultar si ya instalada o no es móvil
-    } else {
-        installBtn.style.display = "inline-block"; // mostrar si no instalada
-    }
-}
-
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    updateInstallButton();
-});
-
-installBtn.onclick = async () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-
-        if (outcome === "accepted") {
-            installBtn.style.display = "none";
-        }
-    } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-        alert("Para instalar en iPhone:\n1. Tocá el botón 'Compartir' (⬆️)\n2. Elegí 'Agregar a pantalla de inicio'");
-    } else {
-        alert("Tu navegador no soporta instalación directa.");
-    }
-};
-
-updateInstallButton();
-</script>
-
 
 </body>
 </html>
