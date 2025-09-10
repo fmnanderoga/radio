@@ -7,11 +7,31 @@ const statusEl = document.getElementById('status');
 const volumeSlider = document.getElementById('volume');
 
 // ===================== CONFIGURACIÓN =====================
-const streamURL = "/stream";
+const streamURL = "https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s1_33304_stream_944158957";
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 10;
+
+// ===================== CREAR CONTENEDOR DE FALLBACK =====================
+let iframeContainer = document.getElementById('iframeContainer');
+if(!iframeContainer) {
+    iframeContainer = document.createElement('div');
+    iframeContainer.id = "iframeContainer";
+    iframeContainer.style.display = "none";
+    iframeContainer.style.marginTop = "10px";
+
+    const iframe = document.createElement('iframe');
+    iframe.id = "radioIframe";
+    iframe.src = "https://www.listen2myradio.com/live.php?radio=fmnanderoga";
+    iframe.style.width = "100%";
+    iframe.style.height = "60px";
+    iframe.style.border = "none";
+
+    iframeContainer.appendChild(iframe);
+    const container = document.getElementById('radioPlayer') || document.body; // Si no existe id 'radioPlayer', lo agrega al body
+    container.appendChild(iframeContainer);
+}
 
 // ===================== INICIALIZACIÓN =====================
 audio.preload = "auto";
@@ -62,18 +82,25 @@ function playLive() {
         playPauseBtn.disabled = false;
         reconnectAttempts = 0;
         if(reconnectTimeout) clearTimeout(reconnectTimeout);
+
+        // Ocultar iframe si estaba visible
+        iframeContainer.style.display = "none";
+
     }).catch((err) => {
         console.warn("Error al reproducir:", err);
         isPlaying = false;
         updatePlayPauseUI();
-        setStatus("OFFLINE");
+        setStatus("OFFLINE - usando fallback", "#ffa500");
         playPauseBtn.disabled = false;
+
+        // Mostrar iframe como fallback
+        iframeContainer.style.display = "block";
 
         if(reconnectAttempts < maxReconnectAttempts) {
             reconnectAttempts++;
             reconnectTimeout = setTimeout(playLive, 3000);
         } else {
-            setStatus("NO SE PUEDE CONECTAR");
+            setStatus("NO SE PUEDE CONECTAR", "#ff0000");
         }
     });
 }
@@ -83,14 +110,12 @@ function playLive() {
 // Botón Play/Pause
 playPauseBtn.addEventListener('click', () => {
     if(isPlaying) {
-        // Pausar audio
         audio.pause();
         isPlaying = false;
         updatePlayPauseUI();
         setStatus("PAUSADO", "#ffa500");
         if(reconnectTimeout) clearTimeout(reconnectTimeout);
     } else {
-        // Reproducir audio desde el stream en vivo
         playLive();
     }
 });
@@ -99,14 +124,17 @@ playPauseBtn.addEventListener('click', () => {
 audio.addEventListener('error', () => {
     isPlaying = false;
     updatePlayPauseUI();
-    setStatus("OFFLINE");
+    setStatus("OFFLINE - usando fallback", "#ffa500");
     playPauseBtn.disabled = false;
+
+    // Mostrar iframe como fallback
+    iframeContainer.style.display = "block";
 
     if(reconnectAttempts < maxReconnectAttempts) {
         reconnectAttempts++;
         reconnectTimeout = setTimeout(playLive, 3000);
     } else {
-        setStatus("NO SE PUEDE CONECTAR");
+        setStatus("NO SE PUEDE CONECTAR", "#ff0000");
     }
 });
 
@@ -115,4 +143,3 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
-
