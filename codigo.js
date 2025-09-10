@@ -7,7 +7,8 @@ const statusEl = document.getElementById('status');
 const volumeSlider = document.getElementById('volume');
 
 // ===================== CONFIGURACIÓN =====================
-const streamURL = "https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s1_33304_stream_944158957";
+const streamURL = "https://lunix.txrx.stream/radioune/";
+
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
@@ -111,3 +112,4 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
+
