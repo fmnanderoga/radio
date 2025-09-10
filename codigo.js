@@ -42,13 +42,18 @@ function showLoading() {
     playPauseBtn.classList.add('loading');
 }
 
-// Función principal de reproducción con spinner
+// ===================== FUNCION PRINCIPAL DE REPRODUCCIÓN =====================
 function playLive() {
     if(isPlaying) return; // evita doble ejecución
 
     playPauseBtn.disabled = true;
     setStatus("CONECTANDO...", "#ffa500");
     showLoading();
+
+    // Reiniciar fuente para reproducir siempre desde el stream en vivo
+    audio.src = streamURL;
+    audio.load();
+    audio.volume = volumeSlider.value;
 
     audio.play().then(() => {
         isPlaying = true;
@@ -78,12 +83,14 @@ function playLive() {
 // Botón Play/Pause
 playPauseBtn.addEventListener('click', () => {
     if(isPlaying) {
+        // Pausar audio
         audio.pause();
         isPlaying = false;
         updatePlayPauseUI();
         setStatus("PAUSADO", "#ffa500");
         if(reconnectTimeout) clearTimeout(reconnectTimeout);
     } else {
+        // Reproducir audio desde el stream en vivo
         playLive();
     }
 });
