@@ -1,3 +1,4 @@
+// ===================== ELEMENTOS DEL DOM =====================
 const audio = document.getElementById('audio');
 const playPauseBtn = document.getElementById('playPause');
 const iconPlay = document.getElementById('iconPlay');
@@ -5,43 +6,105 @@ const iconPause = document.getElementById('iconPause');
 const statusEl = document.getElementById('status');
 const volumeSlider = document.getElementById('volume');
 
+// ===================== CONFIGURACIÓN =====================
 const streamURL = "https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s1_33304_stream_944158957";
-
 let isPlaying = false;
+let reconnectTimeout = null;
+let reconnectAttempts = 0;
+const maxReconnectAttempts = 10;
 
-// PRE-CARGA DEL STREAM AL INICIO
+// ===================== INICIALIZACIÓN =====================
+audio.preload = "auto";
 audio.src = streamURL;
-audio.volume = 0.7;
-audio.load();
+audio.volume = localStorage.getItem('volume') || 0.7;
+volumeSlider.value = audio.volume;
 
-playPauseBtn.addEventListener('click', () => {
-    if(isPlaying){
-        audio.pause();
-        isPlaying = false;
+// ===================== FUNCIONES =====================
+function updatePlayPauseUI() {
+    if(isPlaying) {
+        iconPlay.style.display = 'none';
+        iconPause.style.display = 'block';
+        playPauseBtn.classList.remove('loading');
+    } else {
         iconPlay.style.display = 'block';
         iconPause.style.display = 'none';
-        statusEl.textContent = 'PAUSED';
+        playPauseBtn.classList.remove('loading');
+    }
+}
+
+function setStatus(text, color="#ff3636") {
+    statusEl.textContent = text;
+    statusEl.style.color = color;
+}
+
+// Agregar clase loading al botón
+function showLoading() {
+    playPauseBtn.classList.add('loading');
+}
+
+// Función principal de reproducción con spinner
+function playLive() {
+    if(isPlaying) return; // evita doble ejecución
+
+    playPauseBtn.disabled = true;
+    setStatus("CONECTANDO...", "#ffa500");
+    showLoading();
+
+    audio.play().then(() => {
+        isPlaying = true;
+        updatePlayPauseUI();
+        setStatus("LIVE", "#0f0");
+        playPauseBtn.disabled = false;
+        reconnectAttempts = 0;
+        if(reconnectTimeout) clearTimeout(reconnectTimeout);
+    }).catch((err) => {
+        console.warn("Error al reproducir:", err);
+        isPlaying = false;
+        updatePlayPauseUI();
+        setStatus("OFFLINE");
+        playPauseBtn.disabled = false;
+
+        if(reconnectAttempts < maxReconnectAttempts) {
+            reconnectAttempts++;
+            reconnectTimeout = setTimeout(playLive, 3000);
+        } else {
+            setStatus("NO SE PUEDE CONECTAR");
+        }
+    });
+}
+
+// ===================== EVENTOS =====================
+
+// Botón Play/Pause
+playPauseBtn.addEventListener('click', () => {
+    if(isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        updatePlayPauseUI();
+        setStatus("PAUSADO", "#ffa500");
+        if(reconnectTimeout) clearTimeout(reconnectTimeout);
     } else {
-        audio.play().then(() => {
-            isPlaying = true;
-            iconPlay.style.display = 'none';
-            iconPause.style.display = 'block';
-            statusEl.textContent = 'LIVE';
-        }).catch(() => {
-            statusEl.textContent = 'OFFLINE';
-            playPauseBtn.disabled = true;
-        });
+        playLive();
     }
 });
 
+// Manejo de errores de audio
 audio.addEventListener('error', () => {
-    statusEl.textContent = 'OFFLINE';
-    playPauseBtn.disabled = true;
-    iconPlay.style.display = 'block';
-    iconPause.style.display = 'none';
     isPlaying = false;
+    updatePlayPauseUI();
+    setStatus("OFFLINE");
+    playPauseBtn.disabled = false;
+
+    if(reconnectAttempts < maxReconnectAttempts) {
+        reconnectAttempts++;
+        reconnectTimeout = setTimeout(playLive, 3000);
+    } else {
+        setStatus("NO SE PUEDE CONECTAR");
+    }
 });
 
+// Guardar volumen
 volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
+    localStorage.setItem('volume', e.target.value);
 });
