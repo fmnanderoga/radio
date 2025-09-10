@@ -112,4 +112,3 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
-
