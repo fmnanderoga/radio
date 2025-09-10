@@ -7,8 +7,8 @@ const statusEl = document.getElementById('status');
 const volumeSlider = document.getElementById('volume');
 
 // ===================== CONFIGURACIÓN =====================
-const streamURL = "https://ar.radiodisney.com/radio-disney-argentina-943.m3u8";
-
+const streamURL = "";
+const streamURL = "https://lunix.txrx.stream/radioune/";
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
@@ -112,4 +112,5 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
+
 
