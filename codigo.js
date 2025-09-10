@@ -8,45 +8,40 @@ const volumeSlider = document.getElementById('volume');
 const streamURL = "https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s1_33304_stream_944158957";
 
 let isPlaying = false;
-let isLoading = false; // evita clicks rápidos
 
-function startLive() {
-    if (isLoading) return; // bloquea llamadas repetidas
-
-    isLoading = true;
-    audio.pause();
-    audio.src = streamURL;
-    audio.load();
-    audio.play().then(() => {
-        isPlaying = true;
-        isLoading = false;
-        iconPlay.style.display = 'none';
-        iconPause.style.display = 'block';
-        statusEl.textContent = 'LIVE';
-        playPauseBtn.disabled = false;
-    }).catch(() => {
-        isPlaying = false;
-        isLoading = false;
-        statusEl.textContent = 'OFFLINE';
-        playPauseBtn.disabled = false;
-        iconPlay.style.display = 'block';
-        iconPause.style.display = 'none';
-    });
-}
+// PRE-CARGA DEL STREAM AL INICIO
+audio.src = streamURL;
+audio.volume = 0.7;
+audio.load();
 
 playPauseBtn.addEventListener('click', () => {
-    if (isPlaying) {
+    if(isPlaying){
         audio.pause();
         isPlaying = false;
         iconPlay.style.display = 'block';
         iconPause.style.display = 'none';
+        statusEl.textContent = 'PAUSED';
     } else {
-        startLive();
+        audio.play().then(() => {
+            isPlaying = true;
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+            statusEl.textContent = 'LIVE';
+        }).catch(() => {
+            statusEl.textContent = 'OFFLINE';
+            playPauseBtn.disabled = true;
+        });
     }
+});
+
+audio.addEventListener('error', () => {
+    statusEl.textContent = 'OFFLINE';
+    playPauseBtn.disabled = true;
+    iconPlay.style.display = 'block';
+    iconPause.style.display = 'none';
+    isPlaying = false;
 });
 
 volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
 });
-
-audio.volume = 0.7;
