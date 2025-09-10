@@ -45,7 +45,6 @@ function showLoading() {
 // ===================== FUNCION PRINCIPAL DE REPRODUCCIÓN =====================
 function playLive() {
     if(isPlaying) return; // evita doble ejecución
-
     playPauseBtn.disabled = true;
     setStatus("CONECTANDO...", "#ffa500");
     showLoading();
@@ -68,7 +67,6 @@ function playLive() {
         updatePlayPauseUI();
         setStatus("OFFLINE");
         playPauseBtn.disabled = false;
-
         if(reconnectAttempts < maxReconnectAttempts) {
             reconnectAttempts++;
             reconnectTimeout = setTimeout(playLive, 3000);
@@ -79,7 +77,6 @@ function playLive() {
 }
 
 // ===================== EVENTOS =====================
-
 // Botón Play/Pause
 playPauseBtn.addEventListener('click', () => {
     if(isPlaying) {
@@ -101,7 +98,6 @@ audio.addEventListener('error', () => {
     updatePlayPauseUI();
     setStatus("OFFLINE");
     playPauseBtn.disabled = false;
-
     if(reconnectAttempts < maxReconnectAttempts) {
         reconnectAttempts++;
         reconnectTimeout = setTimeout(playLive, 3000);
