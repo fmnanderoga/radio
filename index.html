@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Open Graph para redes sociales -->
+<meta property="og:title" content="FM Ñanderoga 106.5 - Radio educativa del ISG">
+<meta property="og:description" content="Radio socio educativa del ISG con programas en vivo y contenido educativo.">
+<meta property="og:image" content="https://fmnanderoga.netlify.app/img/logo (2).png">
+<meta property="og:url" content="https://fmnanderoga.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+
 <title>FM Ñanderoga</title>
 
 <link rel="manifest" href="manifest.json">
@@ -12,7 +19,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+<link rel="icon" href="img/logo (2).png" type="image/x-icon">
 <link rel="stylesheet" href="estilo.css">
 
 <style>
@@ -162,18 +169,7 @@ installBtn.onclick = async () => {
 
 updateInstallButton();
 </script>
-    <script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('Service Worker registrado', reg))
-        .catch(err => console.log('Error SW:', err));
-    });
-}
-    </script>
 
 
 </body>
 </html>
-
-
