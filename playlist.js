@@ -50,6 +50,7 @@ songs.forEach((song, index) => {
 function loadSong(index) {
   currentIndex = index;
   audio.src = songs[index].url;
+  audio.load(); // fuerza la precarga del audio
   nowPlaying.textContent = songs[index].name;
   songImage.src = songs[index].image;
 
@@ -101,6 +102,7 @@ prevBtn.addEventListener("click", () => {
 // CARGAR PRIMERA CANCIÓN AL INICIO
 // ===========================
 window.addEventListener("load", () => {
+  audio.preload = "auto"; // precargar audio al inicio
   loadSong(0);
 });
 
@@ -201,4 +203,3 @@ function updateMediaSession() {
     });
   }
 }
-
