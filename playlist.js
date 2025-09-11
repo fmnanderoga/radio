@@ -163,15 +163,25 @@ audio.addEventListener("ended", () => {
 // ===========================
 function updateMediaSession() {
   if ('mediaSession' in navigator) {
+    // Obtener nombre del artista y título separados (si tus nombres de canción incluyen " - ")
+    let [artist, title] = songs[currentIndex].name.includes(" - ")
+      ? songs[currentIndex].name.split(" - ")
+      : ["FM Ñanderoga", songs[currentIndex].name];
+
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: songs[currentIndex].name,
-      artist: '', // opcional
+      title: title.trim(),
+      artist: artist.trim(),
       album: 'Top 10 - FM Ñanderoga',
       artwork: [
-        { src: songs[currentIndex].image, sizes: '150x150', type: 'image/png' }
+        {
+          src: songs[currentIndex].image,
+          sizes: '150x150',
+          type: songs[currentIndex].image.endsWith('.png') ? 'image/png' : 'image/jpeg'
+        }
       ]
     });
 
+    // Acciones de control
     navigator.mediaSession.setActionHandler('play', playSong);
     navigator.mediaSession.setActionHandler('pause', pauseSong);
     navigator.mediaSession.setActionHandler('previoustrack', () => {
@@ -186,3 +196,4 @@ function updateMediaSession() {
     });
   }
 }
+
