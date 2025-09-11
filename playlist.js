@@ -163,14 +163,17 @@ audio.addEventListener("ended", () => {
 // ===========================
 function updateMediaSession() {
   if ('mediaSession' in navigator) {
-    // Obtener nombre del artista y título separados (si tus nombres de canción incluyen " - ")
+    // Separar artista y título
     let [artist, title] = songs[currentIndex].name.includes(" - ")
       ? songs[currentIndex].name.split(" - ")
-      : ["FM Ñanderoga", songs[currentIndex].name];
+      : ["", songs[currentIndex].name];
+
+    // Agregar nombre de la radio al artista
+    artist = artist.trim() + " - FM Ñanderoga";
 
     navigator.mediaSession.metadata = new MediaMetadata({
       title: title.trim(),
-      artist: artist.trim(),
+      artist: artist,
       album: 'Top 10 - FM Ñanderoga',
       artwork: [
         {
@@ -196,4 +199,3 @@ function updateMediaSession() {
     });
   }
 }
-
