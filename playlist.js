@@ -57,6 +57,8 @@ function loadSong(index) {
   document.querySelectorAll(".song-item").forEach((el, i) => {
     el.classList.toggle("active", i === index);
   });
+
+  updateMediaSession(); // Actualizar notificación en celulares
 }
 
 // ===========================
@@ -114,22 +116,29 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 // ===========================
-// BARRA DE TIEMPO
+// BARRA DE TIEMPO (click + touch)
 // ===========================
 audio.addEventListener("timeupdate", () => {
   const percent = (audio.currentTime / audio.duration) * 100;
   progress.style.width = percent + "%";
 
-  // Actualizar tiempos
   currentTimeEl.textContent = formatTime(audio.currentTime);
   durationEl.textContent = formatTime(audio.duration);
 });
 
-// Click en la barra para saltar
-progressBar.addEventListener("click", (e) => {
-  const width = progressBar.clientWidth;
-  const clickX = e.offsetX;
+function setProgress(e, bar) {
+  const rect = bar.getBoundingClientRect();
+  let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  const clickX = clientX - rect.left;
+  const width = rect.width;
   audio.currentTime = (clickX / width) * audio.duration;
+}
+
+progressBar.addEventListener("click", (e) => setProgress(e, progressBar));
+progressBar.addEventListener("touchstart", (e) => setProgress(e, progressBar));
+progressBar.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  setProgress(e, progressBar);
 });
 
 // Formatear tiempo en mm:ss
@@ -141,10 +150,39 @@ function formatTime(time) {
 }
 
 // ===========================
-// PASAR AUTOMÁTICAMENTE A LA SIGUIENTE CANCIÓN
+// AUTOPLAY SIGUIENTE CANCIÓN
 // ===========================
 audio.addEventListener("ended", () => {
-  currentIndex = (currentIndex + 1) % songs.length; // siguiente canción (loop)
+  currentIndex = (currentIndex + 1) % songs.length;
   loadSong(currentIndex);
   playSong();
 });
+
+// ===========================
+// MEDIA SESSION API
+// ===========================
+function updateMediaSession() {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: songs[currentIndex].name,
+      artist: '', // opcional
+      album: 'Top 10 - FM Ñanderoga',
+      artwork: [
+        { src: songs[currentIndex].image, sizes: '150x150', type: 'image/png' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', playSong);
+    navigator.mediaSession.setActionHandler('pause', pauseSong);
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+      loadSong(currentIndex);
+      playSong();
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      currentIndex = (currentIndex + 1) % songs.length;
+      loadSong(currentIndex);
+      playSong();
+    });
+  }
+}
