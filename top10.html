@@ -19,11 +19,18 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background: #fd950d;
+    background: linear-gradient(270deg, #e01f1f, #131212, #ff4747, #1b1b1b);
     font-family: 'Nunito', sans-serif;
     color: #ffffff;
+    background-size: 800% 800%;
+    animation: gradientAnimation 15s ease infinite;
 }
-
+/* Animación del fondo */
+@keyframes gradientAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
 .main-content {
     flex: 1 0 auto;
     display: flex;
@@ -117,7 +124,7 @@ html, body {
 }
 
 .control-row .btn:hover {
-    background: #fd950d;
+    background: #fd0d0d;
     transform: scale(1.1);
 }
 
@@ -144,7 +151,7 @@ html, body {
 }
 
 .song-item.active {
-    background: #fd950d;
+    background: #fd0d0d;
     color: #140e0e;
     font-weight: bold;
 }
@@ -166,7 +173,7 @@ html, body {
 .progress div {
     height: 100%;
     width: 0%;
-    background-color: #fd950d;
+    background-color: #fd0d0d;
     border-radius: 4px;
     transition: width 0.1s linear;
 }
@@ -224,7 +231,7 @@ footer {
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
   <div class="container-fluid px-4">
     <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="img/logo (2).png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
+      <img src="img/logo rojo.png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
       <span style="color: #fff">FM Ñanderoga</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -232,11 +239,11 @@ footer {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html" style="color: #fff;">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="programas.html" style="color: #fff;">Programas</a></li>
-        <li class="nav-item"><a class="nav-link" href="contacto.html" style="color: #fff;">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://isggoya.edu.ar/" target="_blank" style="color: #fff;">ISG</a></li>
-        <li class="nav-item"><a class="nav-link" href="img/qr radio fm.png" target="_blank" style="color: #fff;">QR</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html" style="color: #fa5f5f;">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="programas.html" style="color: #fa5f5f;">Programas</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacto.html" style="color: #fa5f5f;">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://isggoya.edu.ar/" target="_blank" style="color: #fa5f5f;">ISG</a></li>
+        <li class="nav-item"><a class="nav-link" href="img/qr radio fm.png" target="_blank" style="color: #fa5f5f;">QR</a></li>
       </ul>
     </div>
   </div>
