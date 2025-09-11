@@ -169,7 +169,7 @@ function updateMediaSession() {
       : ["", songs[currentIndex].name];
 
     // Agregar nombre de la radio al artista
-    artist = artist.trim() + " - FM Ñanderoga";
+    artist.trim = artist () + " - FM Ñanderoga";
 
     navigator.mediaSession.metadata = new MediaMetadata({
         artist: artist,
