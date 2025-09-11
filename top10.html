@@ -25,7 +25,7 @@ html, body {
 }
 
 .main-content {
-    flex: 1 0 auto; /* ocupa el espacio disponible */
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +44,7 @@ html, body {
 }
 
 .navbar-toggler-icon {
-    filter: invert(1); /* icono blanco */
+    filter: invert(1);
 }
 
 /* ======== CONTENEDOR ======== */
@@ -73,7 +73,6 @@ html, body {
     z-index: 10;
 }
 
-/* Imagen y título */
 .song-image {
     width: 150px;
     height: 150px;
@@ -126,7 +125,7 @@ html, body {
 .song-list {
     margin-top: 10px;
     width: 100%;
-    max-height: 400px; /* Altura de scroll */
+    max-height: 400px;
     overflow-y: auto;
 }
 
@@ -150,6 +149,38 @@ html, body {
     font-weight: bold;
 }
 
+/* Barra de tiempo */
+.progress-container {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.progress {
+    height: 8px;
+    background-color: #282828;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    width: 0%;
+    background-color: #e0850e;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+}
+
+/* Tiempo */
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #ccc;
+    width: 80%;
+    margin: 0 auto 10px auto;
+}
+
 /* FOOTER FIJO AL FINAL */
 footer {
     flex-shrink: 0;
@@ -160,7 +191,7 @@ footer {
     font-size: 0.9rem;
 }
 
-/* ======== MEDIA QUERIES CELULAR ======== */
+/* MEDIA QUERIES CELULAR */
 @media (max-width: 480px) {
     .song-image {
         width: 120px;
@@ -227,6 +258,17 @@ footer {
       <button class="btn" id="prevBtn"><i class="bi bi-skip-backward-fill"></i></button>
       <button class="btn" id="playPause"><i class="bi bi-play-fill"></i></button>
       <button class="btn" id="nextBtn"><i class="bi bi-skip-forward-fill"></i></button>
+    </div>
+
+    <!-- Barra de tiempo y tiempo -->
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+    <div class="progress-container">
+      <div id="progressBar" class="progress">
+        <div id="progress"></div>
+      </div>
     </div>
 
     <!-- Audio y lista -->
