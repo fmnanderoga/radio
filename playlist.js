@@ -2,16 +2,16 @@
 // PLAYLIST JS
 // ===========================
 const songs = [
-  { name: "Lady Gaga - The Dead Dance", url: "audio/Lady Gaga - The Dead Dance.mp3", image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Billie Eilish - BIRDS OF A FEATHER", url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Justin Bieber - DAISIES", url: "audio/Justin Bieber - DAISIES.mp3", image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
+  { name: "The Dead Dance - Lady Gaga", url: "audio/Lady Gaga - The Dead Dance.mp3", image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
+  { name: "BIRDS OF A FEATHER -Billie Eilish", url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
+  { name: "DAISIES - Justin Bieber", url: "audio/Justin Bieber - DAISIES.mp3", image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
   { name: "Show Me Love - WizTheMc, bees & honey", url: "audio/Show Me Love - WizTheMc, bees & honey.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.ukIxUtG0flpPt7ucr5xlNwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
   { name: "Mystical Magical - Benson Boone", url: "audio/Mystical Magical - Benson Boone.mp3", image: "https://th.bing.com/th/id/R.9fb50e97de14a750c06aaf26ad3a4f3e?rik=lUemyxgIeJONNA&riu=http%3a%2f%2ftopmusicarts.com%2fcdn%2fshop%2ffiles%2fBenson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png%3fv%3d1747170788&ehk=Pvfy48gw8lROk6Itzdgjd4lRLQhZReBhBFQw5E1sT%2bc%3d&risl=&pid=ImgRaw&r=0" },
   { name: "COQUETA - Grupo Frontera, Fuerza Regida", url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg" },
   { name: "BAILE INoLVIDABLE -Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
   { name: "Obsesionario - Tan Bionica", url: "audio/Obsesionario - Tan Bionica.mp3", image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg" },
   { name: "SOLEAO - Myke Towers & Quevedo", url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png"},
-  { name: "Miranda! - Tu Misterioso Alguien", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0" }
+  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0" }
 ];
 
 // ELEMENTOS
@@ -172,8 +172,8 @@ function updateMediaSession() {
     artist = artist.trim() + " - FM Ñanderoga";
 
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: title.trim(),
-      artist: artist,
+        artist: artist,
+        title: title.trim(),
       album: 'Top 10 - FM Ñanderoga',
       artwork: [
         {
