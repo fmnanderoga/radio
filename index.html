@@ -1,190 +1,420 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Barra de estado Android -->
+<meta name="theme-color" content="#fd0d0d">
+<!-- Barra de estado iOS -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 10 - FM Ñanderoga</title>
 
-<!-- Título y descripción SEO -->
-<title>FM Ñanderoga 106.5 - Radio educativa del ISG</title>
-<meta name="description" content="FM Ñanderoga 106.5 - Radio socio educativa del ISG con programas en vivo y contenido educativo.">
-<meta name="keywords" content="FM Ñanderoga, radio, ISG, programas, educación, música">
-<meta name="robots" content="index, follow">
-
-<!-- Open Graph / Facebook -->
-<meta property="og:title" content="FM Ñanderoga 106.5 - Radio educativa del ISG">
-<meta property="og:description" content="Radio socio educativa del ISG con programas en vivo y contenido educativo.">
-<meta property="og:image" content="https://fmnanderoga.netlify.app/img/logo (2).png">
-<meta property="og:url" content="https://fmnanderoga.netlify.app/">
-<meta property="og:type" content="website">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FM Ñanderoga 106.5 - Radio educativa del ISG">
-<meta name="twitter:description" content="Radio socio educativa del ISG con programas en vivo y contenido educativo.">
-<meta name="twitter:image" content="https://fmnanderoga.netlify.app/img/logo (2).png">
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#5fff74">
-
-<!-- Favicon -->
-<link rel="icon" href="img/logo (2).png" type="image/png">
-<link rel="apple-touch-icon" href="img/logo (2).png">
-
-<!-- Estilos y fuentes -->
+<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
+<!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="estilo.css">
 
 <style>
-    .install-btn {
-        padding: 12px 25px;
-        font-size: 1.1em;
-        font-weight: 700;
-        color: #fff;
-        background: linear-gradient(90deg, #13af88, #0f8f5a);
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+/* ======== BODY Y FLEX ======== */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(270deg, #e01f1f, #131212, #ff4747, #1b1b1b);
+    font-family: 'Nunito', sans-serif;
+    color: #ffffff;
+    background-size: 800% 800%;
+    animation: gradientAnimation 15s ease infinite;
+}
+/* Animación del fondo */
+@keyframes gradientAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+.main-content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+}
+
+/* ======== NAVBAR ======== */
+.navbar {
+    background-color: #181818 !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.7);
+}
+
+.navbar-brand span {
+    font-weight: 800;
+    color: #fff !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ======== CONTENEDOR ======== */
+.playlist-container {
+    background: #181818;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    margin: 20px auto;
+    width: 95%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======== REPRODUCTOR FIJO ======== */
+.song-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background: #181818;
+    padding-bottom: 15px;
+    z-index: 10;
+}
+
+.song-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.song-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+}
+
+.song-title {
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+/* Controles */
+.control-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.control-row .btn {
+    background: #282828;
+    color: #fff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 1.2rem;
+}
+
+.control-row .btn:hover {
+    background: #fd0d0d;
+    transform: scale(1.1);
+}
+
+/* Lista de canciones con scroll */
+.song-list {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #44444493;
+    border-radius: 12px;
+}
+
+.song-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.song-item:hover {
+    background: #282828;
+    cursor: pointer;
+}
+
+.song-item.active {
+    background: #fd0d0d;
+    color: #140e0e;
+    font-weight: bold;
+}
+
+/* Barra de tiempo */
+.progress-container {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.progress {
+    height: 8px;
+    background-color: #282828;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    width: 0%;
+    background-color: #fd0d0d;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+}
+
+/* Tiempo */
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #ccc;
+    width: 80%;
+    margin: 0 auto 10px auto;
+}
+
+/* FOOTER FIJO AL FINAL */
+footer {
+    flex-shrink: 0;
+    background: #181818;
+    color: #b3b3b3;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* MEDIA QUERIES CELULAR */
+@media (max-width: 480px) {
+    .song-image {
+        width: 120px;
+        height: 120px;
     }
 
-    .install-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    .song-title {
+        font-size: 0.9rem;
     }
 
-    @media (min-width: 1025px) {
-        .install-btn {
-            display: none !important;
-        }
+    .control-row .btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
+
+    .playlist-container {
+        padding: 15px;
+    }
+
+    .song-list {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    overscroll-behavior: contain; /* <-- Esto hace que al llegar al final, el scroll continúe con el body */
+}
+
+}
+
+
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" 
-     style="background-color: rgba(255, 255, 255, 0.979); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.4);">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
   <div class="container-fluid px-4">
     <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="img/logo (2).png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
-      <span style="color: #000">FM Ñanderoga</span>
+      <img src="img/logo rojo.png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
+      <span style="color: #fff">FM Ñanderoga</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="programas.html">Programas</a></li>
-          <li class="nav-item"><a class="nav-link" href="top10.html">Música</a></li>
-        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="https://isggoya.edu.ar/" target="_blank">ISG</a></li>
-        <li class="nav-item"><a class="nav-link" href="img/qr radio fm.png" target="_blank">QR</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html" style="color: #fa5f5f;">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="programas.html" style="color: #fa5f5f;">Programas</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacto.html" style="color: #fa5f5f;">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://isggoya.edu.ar/" target="_blank" style="color: #fa5f5f;">ISG</a></li>
+        <li class="nav-item"><a class="nav-link" href="img/qr radio fm.png" target="_blank" style="color: #fa5f5f;">QR</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<main class="main-content d-flex flex-column align-items-center">
-    <div class="radio-player mb-3">
-        <div class="radio-image">
-            <img src="img/logo (2).png" alt="Portada de FM Ñanderoga">
-        </div>
-        <h1>FM Ñanderoga</h1>
-        <h2>106.5</h2>
-        <div class="control-row">
-            <button class="btn" id="playPause">
-                <svg id="iconPlay" viewBox="0 0 64 64"><polygon points="16,12 16,52 52,32"/></svg>
-                <svg id="iconPause" viewBox="0 0 64 64" style="display:none;">
-                    <rect x="16" y="12" width="10" height="40"/>
-                    <rect x="38" y="12" width="10" height="40"/>
-                </svg>
-            </button>
-        </div>
-        <div id="status">LIVE</div>
-        <div class="volume-container">
-            <label for="volume">🔊</label>
-            <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
-        </div>
-        <audio id="audio"></audio>
+<!-- CONTENIDO PRINCIPAL -->
+<main class="main-content">
+  <div class="playlist-container">
+    <h2 class="text-center mb-3">Musica</h2>
+
+    <!-- Portada + Título -->
+    <div class="song-display text-center">
+        <img id="songImage" src="img/default.png" alt="Portada" class="song-image mb-2">
+        <div id="nowPlaying" class="song-title">Selecciona una canción</div>
+    
+
+    <!-- Controles -->
+    <div class="control-row">
+      <button class="btn" id="prevBtn"><i class="bi bi-skip-backward-fill"></i></button>
+      <button class="btn" id="playPause"><i class="bi bi-play-fill"></i></button>
+      <button class="btn" id="nextBtn"><i class="bi bi-skip-forward-fill"></i></button>
     </div>
 
-    <button id="installBtn" class="install-btn mb-3">Instalar App</button>
+    <!-- Barra de tiempo y tiempo -->
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+    <div class="progress-container">
+      <div id="progressBar" class="progress">
+        <div id="progress"></div>
+      </div>
+    </div>
+    <p id="sharedBy" class="text-center mt-2" style="color:#ccc; font-style:italic;"></p>
+</div>
+    <!-- Audio y lista -->
+    <audio id="audio"></audio>
+    <div class="song-list" id="songList"></div>
+  </div>
 </main>
-
-<footer style="background-color: rgba(255,255,255,0.8); color: #000; border-top: 2px solid rgba(255,255,255,0.2); padding:30px 0;">
-    <div class="container text-center">
-        <h5 style="color:#13af88;">FM Ñanderoga</h5>
-        <p>Radio socio educativa del ISG</p>
-        <div class="footer-logos d-flex justify-content-center gap-3 mt-3">
-            <img src="img/logo (2).png" class="footer-logo">
-            <img src="img/isg logo.png" class="footer-logo">
-        </div>
-        <p class="mt-3">&copy; 2025 FM Ñanderoga. Todos los derechos reservados.</p>
-        <p>Sitio creado por: <a href="https://petwisearg.github.io/PetWise/" target="_blank" style="color:#13af88;">Arce Lautaro</a></p>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="codigo.js"></script>
+<div class="song-request-form mt-4 text-center">
+  <h5>Pide tu canción</h5>
+  <p style="color:#ebebeb; font-style:italic;">Pasanos el nombre de tu canción y la agregaremos a la lista</p>
+  <div class="form-wrapper">
+    <form id="requestForm" action="https://formspree.io/f/mpwjnqwe" method="POST">
+      <input type="text" name="nombre" placeholder="Tu nombre" required class="form-control mb-2">
+      <input type="text" name="cancion" placeholder="Nombre de la canción o URL de YouTube" required class="form-control mb-2">
+      <button type="submit" class="btn btn-request">Enviar</button>
+      <p id="formMessage" style="margin-top:10px;"></p>
+    </form>
+  </div>
+</div>
 
 <script>
-  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-    link.addEventListener('click', function () {
-      const collapseEl = document.getElementById('navbarNav');
-      const bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
-      if (!bsCollapse) { new bootstrap.Collapse(collapseEl, { toggle: true }); }
-      else { bsCollapse.hide(); }
+  const form = document.getElementById("requestForm");
+  const msg = document.getElementById("formMessage");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        msg.style.color = "#0f0";
+        msg.textContent = "¡Solicitud enviada con éxito!";
+        form.reset();
+      } else {
+        msg.style.color = "#f00";
+        msg.textContent = "Error al enviar, intenta de nuevo.";
+      }
+    })
+    .catch(() => {
+      msg.style.color = "#f00";
+      msg.textContent = "Error al enviar, intenta de nuevo.";
     });
   });
-
-  // PWA install
-  let deferredPrompt;
-  const installBtn = document.getElementById("installBtn");
-  const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
-
-  function updateInstallButton() {
-      const isInstalled = window.matchMedia('(display-mode: standalone)').matches 
-                      || window.navigator.standalone === true;
-      if (isInstalled || !isMobile) installBtn.style.display = "none";
-      else installBtn.style.display = "inline-block";
-  }
-
-  window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      updateInstallButton();
-  });
-
-  installBtn.onclick = async () => {
-      if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          deferredPrompt = null;
-          if (outcome === "accepted") installBtn.style.display = "none";
-      } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-          alert("Para instalar en iPhone:\n1. Tocá el botón 'Compartir' (⬆️)\n2. Elegí 'Agregar a pantalla de inicio'");
-      } else {
-          alert("Tu navegador no soporta instalación directa.");
-      }
-  };
-
-  updateInstallButton();
-
-  // Service Worker
-  if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Service Worker registrado', reg))
-          .catch(err => console.log('Error SW:', err));
-      });
-  }
 </script>
 
+<style>
+.song-request-form {
+    margin: 30px auto;
+    max-width: 500px;
+    width: 90%;
+    background: #181818;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.song-request-form h5 {
+    margin-bottom: 15px;
+}
+
+.song-request-form .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.song-request-form input.form-control {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: #282828;
+    color: #fff;
+}
+
+.song-request-form input.form-control::placeholder {
+    color: #ccc;
+}
+
+.song-request-form button.btn-request {
+    background: #fd0d0d;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.song-request-form button.btn-request:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    .song-request-form input.form-control {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .song-request-form button.btn-request {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<center><p style="color:#ebebeb; font-style:italic;">Pasanos el nombre de tu cancion y la agregaremos a la lista</p></center>
+<br>
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 FM Ñanderoga - Top 10 del Mes</p>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="playlist.js"></script>
 </body>
 </html>
-
 
