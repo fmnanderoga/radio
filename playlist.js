@@ -11,7 +11,8 @@ const songs = [
   { name: "BAILE INoLVIDABLE - Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
   { name: "Obsesionario - Tan Bionica", url: "audio/Obsesionario - Tan Bionica.mp3", image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg" },
   { name: "SOLEAO - Myke Towers & Quevedo", url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png" },
-  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", sharedBy: "Música compartida por: Lautaro" }
+  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", sharedBy: "Música compartida por: Lautaro" },
+  { name: "Bones - Galantis", url: "audio/Bones - Galantis.mp3", image: "https://wololosound.com/wp-content/uploads/50949487_1773159046123312_8360443734776610816_n.jpg", sharedBy: "Música compartida por: Euge" },
 ];
 
 // ELEMENTOS
