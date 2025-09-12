@@ -228,6 +228,25 @@ footer {
         max-height: 300px;
     }
 }
+.btn-instagram {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: transform 0.2s, box-shadow 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+.btn-instagram:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    color: #fff;
+}
+
 </style>
 </head>
 <body>
@@ -257,7 +276,7 @@ footer {
 <!-- CONTENIDO PRINCIPAL -->
 <main class="main-content">
   <div class="playlist-container">
-    <h2 class="text-center mb-3">Top 10 del Mes</h2>
+    <h2 class="text-center mb-3">Musica</h2>
 
     <!-- Portada + Título -->
     <div class="song-display text-center">
@@ -282,13 +301,21 @@ footer {
         <div id="progress"></div>
       </div>
     </div>
+    <p id="sharedBy" class="text-center mt-2" style="color:#ccc; font-style:italic;"></p>
 </div>
     <!-- Audio y lista -->
     <audio id="audio"></audio>
     <div class="song-list" id="songList"></div>
   </div>
 </main>
-
+<!-- Botón para pedir canciones en Instagram -->
+<div class="text-center mt-3">
+  <a href="https://www.instagram.com/fm_nanderoga_106_5" target="_blank" class="btn btn-instagram">
+    <i class="bi bi-instagram"></i> Pedí tu canción en Instagram
+  </a>
+</div>
+<center><p style="color:#ebebeb; font-style:italic;">Pasanos el nombre de tu cancion y la agregaremos a la lista</p></center>
+<br>
 <!-- FOOTER -->
 <footer>
   <p>&copy; 2025 FM Ñanderoga - Top 10 del Mes</p>
@@ -299,3 +326,8 @@ footer {
 <script src="playlist.js"></script>
 </body>
 </html>
+
+
+
+
+
