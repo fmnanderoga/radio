@@ -1,21 +1,167 @@
 // ===========================
 // PLAYLIST JS
 // ===========================
+
+// Agregamos un campo de fondo animado a cada canción
 const songs = [
-  { name: "The Dead Dance - Lady Gaga", url: "audio/Lady Gaga - The Dead Dance.mp3", image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "BIRDS OF A FEATHER - Billie Eilish", url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "DAISIES - Justin Bieber", url: "audio/Justin Bieber - DAISIES.mp3", image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Mystical Magical - Benson Boone", url: "audio/Mystical Magical - Benson Boone.mp3", image: "https://topmusicarts.com/cdn/shop/files/Benson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png?v=1747170788" },
-  { name: "Abracadabra - Lady Gaga", url: "audio/Abracadabra - Lady Gaga.mp3", image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg" },
-  { name: "COQUETA - Grupo Frontera, Fuerza Regida", url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg" },
-  { name: "BAILE INoLVIDABLE - Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Obsesionario - Tan Bionica", url: "audio/Obsesionario - Tan Bionica.mp3", image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg" },
-  { name: "SOLEAO - Myke Towers & Quevedo", url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png" },
-  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", sharedBy: "Música compartida por: Lautaro" },
-  { name: "Bones - Galantis", url: "audio/Bones - Galantis.mp3", image: "https://wololosound.com/wp-content/uploads/50949487_1773159046123312_8360443734776610816_n.jpg", sharedBy: "Música compartida por: Euge" },
+  { 
+    name: "The Dead Dance - Lady Gaga", 
+    url: "audio/Lady Gaga - The Dead Dance.mp3", 
+    image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    colors: ["#e01f1f","#131212","#ff4747","#1b1b1b"], 
+    themeColor: "#ff4747" 
+  },
+  { 
+    name: "BIRDS OF A FEATHER - Billie Eilish", 
+    url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", 
+    image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    colors: ["#0f2027","#203a43","#000000", "#0a668dff"], 
+    themeColor: "#0675ddff"
+  },
+  { 
+    name: "DAISIES - Justin Bieber", 
+    url: "audio/Justin Bieber - DAISIES.mp3", 
+    image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    colors: ["#ff7e5f","#feb47b","#ff6a88","#ffc3a0"], 
+    themeColor: "#d33857ff"
+  },
+  { 
+    name: "Mystical Magical - Benson Boone", 
+    url: "audio/Mystical Magical - Benson Boone.mp3", 
+    image: "https://topmusicarts.com/cdn/shop/files/Benson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png?v=1747170788", 
+    colors: ["#af840dff","#262c05ff","#f0b40eff","#282829ff"], 
+    themeColor: "#0a8049ff"
+  },
+  { 
+    name: "Abracadabra - Lady Gaga", 
+    url: "audio/Abracadabra - Lady Gaga.mp3", 
+    image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg", 
+    colors: ["#ff0000","#ff7300","#ffeb00","#00ff73"], 
+    themeColor: "#ff0000"
+  },
+  { 
+    name: "COQUETA - Grupo Frontera, Fuerza Regida", 
+    url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", 
+    image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg", 
+    colors: ["#1d2671","#c33764","#1d2671","#f0c27b"], 
+    themeColor: "#c33764"
+  },
+  { 
+    name: "BAILE INoLVIDABLE - Bad Bunny", 
+    url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", 
+    image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    colors: ["#f12711","#f5af19","#f12711","#f5af19"], 
+    themeColor: "#f12711"
+  },
+  { 
+    name: "Obsesionario - Tan Bionica", 
+    url: "audio/Obsesionario - Tan Bionica.mp3", 
+    image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg", 
+    colors: ["#8360c3","#2ebf91","#8360c3","#2ebf91"], 
+    themeColor: "#2ebf91"
+  },
+  { 
+    name: "SOLEAO - Myke Towers & Quevedo", 
+    url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", 
+    image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png", 
+    colors: ["#ff512f","#dd2476","#ff512f","#dd2476"], 
+    themeColor: "#dd2476"
+  },
+  { 
+    name: "Tu Misterioso Alguien - Miranda!", 
+    url: "audio/Miranda! - Tu Misterioso Alguien.mp3", 
+    image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", 
+    sharedBy: "Música compartida por: Lautaro", 
+    colors: ["#00c6ff","#0072ff","#00c6ff","#0072ff"], 
+    themeColor: "#0072ff"
+  },
+  { 
+    name: "Bones - Galantis", 
+    url: "audio/Bones - Galantis.mp3", 
+    image: "https://wololosound.com/wp-content/uploads/50949487_1773159046123312_8360443734776610816_n.jpg", 
+    sharedBy: "Música compartida por: Euge", 
+    colors: ["#00f260","#0575e6","#00f260","#0575e6"], 
+    themeColor: "#0575e6"
+  },
 ];
 
+// ===========================
+// FUNCION PARA CAMBIAR FONDO ANIMADO
+// ===========================
+function setAnimatedBackground(colors, uiColor) {
+  let styleEl = document.getElementById("dynamicGradient");
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = "dynamicGradient";
+    document.head.appendChild(styleEl);
+  }
+
+  styleEl.innerHTML = `
+    body {
+      background: linear-gradient(270deg, ${colors[0]}, ${colors[1]}, ${colors[2]}, ${colors[3]});
+      background-size: 300% 300%;
+      animation: smoothGradient 15s ease-in-out infinite;
+    }
+
+    @keyframes smoothGradient {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 50% 75%; }
+      50% { background-position: 100% 50%; }
+      75% { background-position: 50% 25%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Lista activa */
+    .song-item.active {
+      background: ${uiColor};
+      color: #fff;
+    }
+
+    /* Barra de progreso */
+    #progress {
+      background-color: ${uiColor};
+    }
+
+    /* Botones solo al hacer hover */
+    .control-row .btn:hover {
+      background-color: ${uiColor};
+      border-color: ${uiColor};
+      color: #fff;
+    }
+
+    /* Botones al presionar */
+    .control-row .btn:active {
+      opacity: 0.6;
+    }
+  `;
+}
+
+// ===========================
+// CARGAR CANCIÓN
+// ===========================
+function loadSong(index) {
+  currentIndex = index;
+  const song = songs[index];
+  audio.src = song.url;
+  nowPlaying.textContent = song.name;
+  songImage.src = song.image;
+  sharedByEl.textContent = song.sharedBy || "";
+
+  document.querySelectorAll(".song-item").forEach((el, i) => {
+    el.classList.toggle("active", i === index);
+  });
+
+  // Cambiar fondo animado y themeColor según canción
+  if (song.colors && song.colors.length === 4) {
+    setAnimatedBackground(song.colors, song.themeColor);
+  }
+
+  updateMediaSession();
+}
+
+// ===========================
 // ELEMENTOS
+// ===========================
 const audio = document.getElementById("audio");
 const playPauseBtn = document.getElementById("playPause");
 const prevBtn = document.getElementById("prevBtn");
@@ -45,25 +191,6 @@ songs.forEach((song, index) => {
   });
   songList.appendChild(div);
 });
-
-// ===========================
-// CARGAR CANCIÓN
-// ===========================
-function loadSong(index) {
-  currentIndex = index;
-  const song = songs[index];
-  audio.src = song.url;
-  nowPlaying.textContent = song.name;
-  songImage.src = song.image;
-  sharedByEl.textContent = song.sharedBy || "";
-
-  document.querySelectorAll(".song-item").forEach((el, i) => {
-    el.classList.toggle("active", i === index);
-  });
-
-  // ✅ Actualizar Media Session
-  updateMediaSession();
-}
 
 // ===========================
 // REPRODUCIR / PAUSAR
@@ -166,19 +293,18 @@ function updateMediaSession() {
     artistName = artistName.trim();
 
     navigator.mediaSession.metadata = new MediaMetadata({
-  title: songTitle,
-  artist: artistName ? `${artistName} - FM Ñanderoga` : 'FM Ñanderoga',
-  album: 'Top 10 - FM Ñanderoga',
-  artwork: [
-    { src: songs[currentIndex].image, sizes: '96x96', type: 'image/jpeg' },
-    { src: songs[currentIndex].image, sizes: '128x128', type: 'image/jpeg' },
-    { src: songs[currentIndex].image, sizes: '192x192', type: 'image/jpeg' },
-    { src: songs[currentIndex].image, sizes: '256x256', type: 'image/jpeg' },
-    { src: songs[currentIndex].image, sizes: '384x384', type: 'image/jpeg' },
-    { src: songs[currentIndex].image, sizes: '512x512', type: 'image/jpeg' },
-  ]
-});
-
+      title: songTitle,
+      artist: artistName ? `${artistName} - FM Ñanderoga` : 'FM Ñanderoga',
+      album: 'Top 10 - FM Ñanderoga',
+      artwork: [
+        { src: songs[currentIndex].image, sizes: '96x96', type: 'image/jpeg' },
+        { src: songs[currentIndex].image, sizes: '128x128', type: 'image/jpeg' },
+        { src: songs[currentIndex].image, sizes: '192x192', type: 'image/jpeg' },
+        { src: songs[currentIndex].image, sizes: '256x256', type: 'image/jpeg' },
+        { src: songs[currentIndex].image, sizes: '384x384', type: 'image/jpeg' },
+        { src: songs[currentIndex].image, sizes: '512x512', type: 'image/jpeg' },
+      ]
+    });
 
     navigator.mediaSession.setActionHandler('play', playSong);
     navigator.mediaSession.setActionHandler('pause', pauseSong);
