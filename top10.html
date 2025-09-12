@@ -291,7 +291,112 @@ footer {
     <div class="song-list" id="songList"></div>
   </div>
 </main>
-<center><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdApspq2qD9I61pyg5bLSBwGX2SPMtng6p3iQwjNpb2dmsLOw/viewform?embedded=true" width="740" height="454" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe></center>
+<div class="song-request-form mt-4 text-center">
+  <h5>Pide tu canción</h5>
+  <p style="color:#ebebeb; font-style:italic;">Pasanos el nombre de tu canción y la agregaremos a la lista</p>
+  <div class="form-wrapper">
+    <form id="requestForm" action="https://formspree.io/f/mpwjnqwe" method="POST">
+      <input type="text" name="nombre" placeholder="Tu nombre" required class="form-control mb-2">
+      <input type="text" name="cancion" placeholder="Nombre de la canción o URL de YouTube" required class="form-control mb-2">
+      <button type="submit" class="btn btn-request">Enviar</button>
+      <p id="formMessage" style="margin-top:10px;"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("requestForm");
+  const msg = document.getElementById("formMessage");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        msg.style.color = "#0f0";
+        msg.textContent = "¡Solicitud enviada con éxito!";
+        form.reset();
+      } else {
+        msg.style.color = "#f00";
+        msg.textContent = "Error al enviar, intenta de nuevo.";
+      }
+    })
+    .catch(() => {
+      msg.style.color = "#f00";
+      msg.textContent = "Error al enviar, intenta de nuevo.";
+    });
+  });
+</script>
+
+<style>
+.song-request-form {
+    margin: 30px auto;
+    max-width: 500px;
+    width: 90%;
+    background: #181818;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.song-request-form h5 {
+    margin-bottom: 15px;
+}
+
+.song-request-form .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.song-request-form input.form-control {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: #282828;
+    color: #fff;
+}
+
+.song-request-form input.form-control::placeholder {
+    color: #ccc;
+}
+
+.song-request-form button.btn-request {
+    background: #fd0d0d;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.song-request-form button.btn-request:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    .song-request-form input.form-control {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .song-request-form button.btn-request {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+</style>
 
 <center><p style="color:#ebebeb; font-style:italic;">Pasanos el nombre de tu cancion y la agregaremos a la lista</p></center>
 <br>
@@ -305,10 +410,6 @@ footer {
 <script src="playlist.js"></script>
 </body>
 </html>
-
-
-
-
 
 
 
