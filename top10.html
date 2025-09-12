@@ -24,18 +24,11 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(270deg, #e01f1f, #131212, #ff4747, #1b1b1b);
     font-family: 'Nunito', sans-serif;
     color: #ffffff;
-    background-size: 800% 800%;
-    animation: gradientAnimation 15s ease infinite;
+    background: none; /* importante quitar cualquier fondo inicial */
 }
-/* Animación del fondo */
-@keyframes gradientAnimation {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
+
 .main-content {
     flex: 1 0 auto;
     display: flex;
@@ -232,12 +225,12 @@ footer {
 }
 
 .nav-link {
-  color: #fa5f5f;
+  color: #ffffff;
   transition: color 0.3s;
 }
 
 .nav-link:hover {
-  color: #e2e2e2;
+  color: #7c7c7c;
   transform: scale(1.1);
 }
 
@@ -420,6 +413,7 @@ footer {
 <script src="playlist.js"></script>
 </body>
 </html>
+
 
 
 
