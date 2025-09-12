@@ -86,7 +86,7 @@ const songs = [
 ];
 
 // ===========================
-// FUNCION PARA CAMBIAR FONDO ANIMADO
+// FUNCION PARA CAMBIAR FONDO ANIMADO Y UI
 // ===========================
 function setAnimatedBackground(colors, uiColor) {
   let styleEl = document.getElementById("dynamicGradient");
@@ -111,33 +111,31 @@ function setAnimatedBackground(colors, uiColor) {
       100% { background-position: 0% 50%; }
     }
 
-    /* Lista activa */
     .song-item.active {
       background: ${uiColor};
       color: #fff;
     }
 
-    /* Barra de progreso */
     #progress {
       background-color: ${uiColor};
     }
 
-    /* Botones solo al hacer hover */
     .control-row .btn:hover {
       background-color: ${uiColor};
       border-color: ${uiColor};
       color: #fff;
     }
 
-    /* Botones al presionar */
     .control-row .btn:active {
       opacity: 0.6;
     }
   `;
 }
 
+// ===========================
+// FUNCION PARA ACTUALIZAR BARRA DE ESTADO
+// ===========================
 function updateStatusBarColor(uiColor) {
-  // Android
   let themeMeta = document.querySelector('meta[name="theme-color"]');
   if (!themeMeta) {
     themeMeta = document.createElement('meta');
@@ -146,7 +144,6 @@ function updateStatusBarColor(uiColor) {
   }
   themeMeta.setAttribute('content', uiColor);
 
-  // iOS: solo black-translucent o black, no admite color exacto
   let iosMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
   if (!iosMeta) {
     iosMeta = document.createElement('meta');
@@ -157,30 +154,7 @@ function updateStatusBarColor(uiColor) {
 }
 
 // ===========================
-// CARGAR CANCIÓN
-// ===========================
-function loadSong(index) {
-  currentIndex = index;
-  const song = songs[index];
-  audio.src = song.url;
-  nowPlaying.textContent = song.name;
-  songImage.src = song.image;
-  sharedByEl.textContent = song.sharedBy || "";
-
-  document.querySelectorAll(".song-item").forEach((el, i) => {
-    el.classList.toggle("active", i === index);
-  });
-
-  // Cambiar fondo animado y themeColor según canción
-  if (song.colors && song.colors.length === 4) {
-    setAnimatedBackground(song.colors, song.themeColor);
-  }
-
-  updateMediaSession();
-}
-
-// ===========================
-// ELEMENTOS
+// ELEMENTOS DEL DOM
 // ===========================
 const audio = document.getElementById("audio");
 const playPauseBtn = document.getElementById("playPause");
@@ -213,6 +187,31 @@ songs.forEach((song, index) => {
 });
 
 // ===========================
+// FUNCION CARGAR CANCIÓN
+// ===========================
+function loadSong(index) {
+  currentIndex = index;
+  const song = songs[index];
+  audio.src = song.url;
+  nowPlaying.textContent = song.name;
+  songImage.src = song.image;
+  sharedByEl.textContent = song.sharedBy || "";
+
+  document.querySelectorAll(".song-item").forEach((el, i) => {
+    el.classList.toggle("active", i === index);
+  });
+
+  if (song.colors && song.colors.length === 4) {
+    setAnimatedBackground(song.colors, song.themeColor);
+  }
+
+  // Actualiza barra de estado
+  updateStatusBarColor(song.themeColor);
+
+  updateMediaSession();
+}
+
+// ===========================
 // REPRODUCIR / PAUSAR
 // ===========================
 function playSong() {
@@ -229,9 +228,7 @@ function pauseSong() {
   songImage.style.animation = "none";
 }
 
-playPauseBtn.addEventListener("click", () => {
-  isPlaying ? pauseSong() : playSong();
-});
+playPauseBtn.addEventListener("click", () => isPlaying ? pauseSong() : playSong());
 
 // ===========================
 // SIGUIENTE / ANTERIOR
@@ -273,7 +270,6 @@ document.head.appendChild(style);
 audio.addEventListener("timeupdate", () => {
   const percent = (audio.currentTime / audio.duration) * 100;
   progress.style.width = percent + "%";
-
   currentTimeEl.textContent = formatTime(audio.currentTime);
   durationEl.textContent = formatTime(audio.duration);
 });
@@ -297,7 +293,7 @@ function formatTime(time) {
   if (isNaN(time)) return "0:00";
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+  return `${minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
 }
 
 // ===========================
@@ -308,7 +304,6 @@ function updateMediaSession() {
     let [songTitle, artistName] = songs[currentIndex].name.includes(" - ")
       ? songs[currentIndex].name.split(" - ")
       : [songs[currentIndex].name, ""];
-
     songTitle = songTitle.trim();
     artistName = artistName.trim();
 
@@ -316,14 +311,14 @@ function updateMediaSession() {
       title: songTitle,
       artist: artistName ? `${artistName} - FM Ñanderoga` : 'FM Ñanderoga',
       album: 'Top 10 - FM Ñanderoga',
-      artwork: [
+      artwork: songs[currentIndex].image ? [
         { src: songs[currentIndex].image, sizes: '96x96', type: 'image/jpeg' },
         { src: songs[currentIndex].image, sizes: '128x128', type: 'image/jpeg' },
         { src: songs[currentIndex].image, sizes: '192x192', type: 'image/jpeg' },
         { src: songs[currentIndex].image, sizes: '256x256', type: 'image/jpeg' },
         { src: songs[currentIndex].image, sizes: '384x384', type: 'image/jpeg' },
         { src: songs[currentIndex].image, sizes: '512x512', type: 'image/jpeg' },
-      ]
+      ] : []
     });
 
     navigator.mediaSession.setActionHandler('play', playSong);
@@ -342,7 +337,7 @@ function updateMediaSession() {
 }
 
 // ===========================
-// REPRODUCIR AUTOMÁTICAMENTE SIGUIENTE
+// REPRODUCIR SIGUIENTE AUTOMÁTICAMENTE
 // ===========================
 audio.addEventListener("ended", () => {
   currentIndex = (currentIndex + 1) % songs.length;
