@@ -410,6 +410,32 @@ footer {
 <footer>
   <p>&copy; 2025 FM Ñanderoga - Top 10 del Mes</p>
 </footer>
+<script>
+  const songList = document.getElementById("songList");
+
+  let startY = 0;
+
+  songList.addEventListener("touchstart", function(e) {
+    startY = e.touches[0].clientY;
+  }, {passive: true});
+
+  songList.addEventListener("touchmove", function(e) {
+    const currentY = e.touches[0].clientY;
+    const scrollTop = songList.scrollTop;
+    const scrollHeight = songList.scrollHeight;
+    const offsetHeight = songList.offsetHeight;
+    const deltaY = startY - currentY;
+
+    // Si estamos en el tope y seguimos deslizando hacia arriba
+    if (scrollTop === 0 && deltaY < 0) {
+      e.preventDefault(); // deja que el scroll padre tome el control
+    }
+    // Si estamos en el final y seguimos deslizando hacia abajo
+    else if (scrollTop + offsetHeight >= scrollHeight && deltaY > 0) {
+      e.preventDefault(); // deja que el scroll padre tome el control
+    }
+  }, {passive: false});
+</script>
 
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -417,3 +443,322 @@ footer {
 </body>
 </html>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Barra de estado Android -->
+<meta name="theme-color" content="#fd0d0d">
+<!-- Barra de estado iOS -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 10 - FM Ñanderoga</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+/* ======== BODY Y FLEX ======== */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(270deg, #e01f1f, #131212, #ff4747, #1b1b1b);
+    font-family: 'Nunito', sans-serif;
+    color: #ffffff;
+    background-size: 800% 800%;
+    animation: gradientAnimation 15s ease infinite;
+}
+/* Animación del fondo */
+@keyframes gradientAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+.main-content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+}
+
+/* ======== NAVBAR ======== */
+.navbar {
+    background-color: #181818 !important;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.7);
+}
+
+.navbar-brand span {
+    font-weight: 800;
+    color: #fff !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ======== CONTENEDOR ======== */
+.playlist-container {
+    background: #181818;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    margin: 20px auto;
+    width: 95%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======== REPRODUCTOR FIJO ======== */
+.song-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background: #181818;
+    padding-bottom: 15px;
+    z-index: 10;
+}
+
+.song-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.song-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+}
+
+.song-title {
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+/* Controles */
+.control-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.control-row .btn {
+    background: #282828;
+    color: #fff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 1.2rem;
+}
+
+.control-row .btn:hover {
+    background: #fd0d0d;
+    transform: scale(1.1);
+}
+
+/* Lista de canciones con scroll */
+.song-list {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.song-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.song-item:hover {
+    background: #282828;
+    cursor: pointer;
+}
+
+.song-item.active {
+    background: #fd0d0d;
+    color: #140e0e;
+    font-weight: bold;
+}
+
+/* Barra de tiempo */
+.progress-container {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.progress {
+    height: 8px;
+    background-color: #282828;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    width: 0%;
+    background-color: #fd0d0d;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+}
+
+/* Tiempo */
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #ccc;
+    width: 80%;
+    margin: 0 auto 10px auto;
+}
+
+/* FOOTER FIJO AL FINAL */
+footer {
+    flex-shrink: 0;
+    background: #181818;
+    color: #b3b3b3;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* MEDIA QUERIES CELULAR */
+@media (max-width: 480px) {
+    .song-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .song-title {
+        font-size: 0.9rem;
+    }
+
+    .control-row .btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .playlist-container {
+        padding: 15px;
+    }
+
+    .song-list {
+        max-height: 300px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="img/logo rojo.png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
+      <span style="color: #fff">FM Ñanderoga</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html" style="color: #fa5f5f;">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="programas.html" style="color: #fa5f5f;">Programas</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacto.html" style="color: #fa5f5f;">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://isggoya.edu.ar/" target="_blank" style="color: #fa5f5f;">ISG</a></li>
+        <li class="nav-item"><a class="nav-link" href="img/qr radio fm.png" target="_blank" style="color: #fa5f5f;">QR</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="main-content">
+  <div class="playlist-container">
+    <h2 class="text-center mb-3">Top 10 del Mes</h2>
+
+    <!-- Portada + Título -->
+    <div class="song-display text-center">
+        <img id="songImage" src="img/default.png" alt="Portada" class="song-image mb-2">
+        <div id="nowPlaying" class="song-title">Selecciona una canción</div>
+    
+
+    <!-- Controles -->
+    <div class="control-row">
+      <button class="btn" id="prevBtn"><i class="bi bi-skip-backward-fill"></i></button>
+      <button class="btn" id="playPause"><i class="bi bi-play-fill"></i></button>
+      <button class="btn" id="nextBtn"><i class="bi bi-skip-forward-fill"></i></button>
+    </div>
+
+    <!-- Barra de tiempo y tiempo -->
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+    <div class="progress-container">
+      <div id="progressBar" class="progress">
+        <div id="progress"></div>
+      </div>
+    </div>
+</div>
+    <!-- Audio y lista -->
+    <audio id="audio"></audio>
+    <div class="song-list" id="songList"></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 FM Ñanderoga - Top 10 del Mes</p>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="playlist.js"></script>
+</body>
+</html>
