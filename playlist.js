@@ -2,16 +2,16 @@
 // PLAYLIST JS
 // ===========================
 const songs = [
-  { name: "The Dead Dance - Lady Gaga", url: "audio/Lady Gaga - The Dead Dance.mp3", image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "BIRDS OF A FEATHER - Billie Eilish", url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "DAISIES - Justin Bieber", url: "audio/Justin Bieber - DAISIES.mp3", image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Mystical Magical - Benson Boone", url: "audio/Mystical Magical - Benson Boone.mp3", image: "https://th.bing.com/th/id/R.9fb50e97de14a750c06aaf26ad3a4f3e?rik=lUemyxgIeJONNA&riu=http%3a%2f%2ftopmusicarts.com%2fcdn%2fshop%2ffiles%2fBenson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png%3fv%3d1747170788&ehk=Pvfy48gw8lROk6Itzdgjd4lRLQhZReBhBFQw5E1sT%2bc%3d&risl=&pid=ImgRaw&r=0" },
-  { name: "Abracadabra - Lady Gaga", url: "audio/Abracadabra - Lady Gaga.mp3", image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg" },
-  { name: "COQUETA - Grupo Frontera, Fuerza Regida", url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg" },
-  { name: "BAILE INoLVIDABLE - Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
-  { name: "Obsesionario - Tan Bionica", url: "audio/Obsesionario - Tan Bionica.mp3", image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg" },
-  { name: "SOLEAO - Myke Towers & Quevedo", url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png"},
-  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0" }
+  { name: "The Dead Dance - Lady Gaga", url: "audio/Lady Gaga - The Dead Dance.mp3", image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3",  },
+  { name: "BIRDS OF A FEATHER - Billie Eilish", url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",  },
+  { name: "DAISIES - Justin Bieber", url: "audio/Justin Bieber - DAISIES.mp3", image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", color: "#4caf50" },
+  { name: "Mystical Magical - Benson Boone", url: "audio/Mystical Magical - Benson Boone.mp3", image: "https://topmusicarts.com/cdn/shop/files/Benson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png?v=1747170788", },
+  { name: "Abracadabra - Lady Gaga", url: "audio/Abracadabra - Lady Gaga.mp3", image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg",  },
+  { name: "COQUETA - Grupo Frontera, Fuerza Regida", url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg", },
+  { name: "BAILE INoLVIDABLE - Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", },
+  { name: "Obsesionario - Tan Bionica", url: "audio/Obsesionario - Tan Bionica.mp3", image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg",},
+  { name: "SOLEAO - Myke Towers & Quevedo", url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png",},
+  { name: "Tu Misterioso Alguien - Miranda!", url: "audio/Miranda! - Tu Misterioso Alguien.mp3", image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", sharedBy: "Música compartida por: Lautaro" }
 ];
 
 // ELEMENTOS
@@ -49,18 +49,21 @@ songs.forEach((song, index) => {
 // ===========================
 function loadSong(index) {
   currentIndex = index;
-  audio.src = songs[index].url;
-  audio.load(); // fuerza la precarga del audio
-  nowPlaying.textContent = songs[index].name;
-  songImage.src = songs[index].image;
+  const song = songs[index];
+  audio.src = song.url;
+  nowPlaying.textContent = song.name;
+  songImage.src = song.image;
 
-  // marcar activa
+  // 👇 mostrar el nombre del que compartió
+  // 👇 mostrar solo el nombre del que compartió
+document.getElementById("sharedBy").textContent = song.sharedBy || "";
+
+
   document.querySelectorAll(".song-item").forEach((el, i) => {
     el.classList.toggle("active", i === index);
   });
-
-  updateMediaSession(); // Actualizar notificación en celulares
 }
+
 
 // ===========================
 // REPRODUCIR / PAUSAR
@@ -102,7 +105,7 @@ prevBtn.addEventListener("click", () => {
 // CARGAR PRIMERA CANCIÓN AL INICIO
 // ===========================
 window.addEventListener("load", () => {
-  audio.preload = "auto"; // precargar audio al inicio
+  audio.preload = "auto";
   loadSong(0);
 });
 
@@ -118,7 +121,7 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 // ===========================
-// BARRA DE TIEMPO (click + touch)
+// BARRA DE TIEMPO
 // ===========================
 audio.addEventListener("timeupdate", () => {
   const percent = (audio.currentTime / audio.duration) * 100;
@@ -152,54 +155,34 @@ function formatTime(time) {
 }
 
 // ===========================
-// AUTOPLAY SIGUIENTE CANCIÓN
-// ===========================
-audio.addEventListener("ended", () => {
-  currentIndex = (currentIndex + 1) % songs.length;
-  loadSong(currentIndex);
-  playSong();
-});
-
-// ===========================
 // MEDIA SESSION API
 // ===========================
 function updateMediaSession() {
-  if ('mediaSession' in navigator) {
-    // Separar título y artista correctamente
-    let [songTitle, artistName] = songs[currentIndex].name.includes(" - ")
-      ? songs[currentIndex].name.split(" - ")
-      : [songs[currentIndex].name, ""];
-
-    // Eliminar espacios extra
-    songTitle = songTitle.trim();
-    artistName = artistName.trim();
-
-    // Crear metadata para notificación
+  if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: songTitle, // Canción arriba
-      artist: artistName ? `${artistName} - FM Ñanderoga` : 'FM Ñanderoga', // Artista abajo
-      album: 'Top 10 - FM Ñanderoga',
-      artwork: [
-        {
-          src: songs[currentIndex].image,
-          sizes: '150x150',
-          type: songs[currentIndex].image.endsWith('.png') ? 'image/png' : 'image/jpeg'
-        }
-      ]
+      title: songs[currentIndex].name,
+      artwork: [{ src: songs[currentIndex].image, sizes: "512x512", type: "image/png" }]
     });
 
-    // Controles de reproducción
-    navigator.mediaSession.setActionHandler('play', playSong);
-    navigator.mediaSession.setActionHandler('pause', pauseSong);
-    navigator.mediaSession.setActionHandler('previoustrack', () => {
+    navigator.mediaSession.setActionHandler("play", playSong);
+    navigator.mediaSession.setActionHandler("pause", pauseSong);
+    navigator.mediaSession.setActionHandler("previoustrack", () => {
       currentIndex = (currentIndex - 1 + songs.length) % songs.length;
       loadSong(currentIndex);
       playSong();
     });
-    navigator.mediaSession.setActionHandler('nexttrack', () => {
+    navigator.mediaSession.setActionHandler("nexttrack", () => {
       currentIndex = (currentIndex + 1) % songs.length;
       loadSong(currentIndex);
       playSong();
     });
   }
 }
+
+// Reproducir automáticamente al terminar
+audio.addEventListener("ended", () => {
+  currentIndex = (currentIndex + 1) % songs.length;
+  loadSong(currentIndex);
+  playSong();
+});
+
