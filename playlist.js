@@ -136,6 +136,26 @@ function setAnimatedBackground(colors, uiColor) {
   `;
 }
 
+function updateStatusBarColor(uiColor) {
+  // Android
+  let themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (!themeMeta) {
+    themeMeta = document.createElement('meta');
+    themeMeta.setAttribute('name', 'theme-color');
+    document.head.appendChild(themeMeta);
+  }
+  themeMeta.setAttribute('content', uiColor);
+
+  // iOS: solo black-translucent o black, no admite color exacto
+  let iosMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  if (!iosMeta) {
+    iosMeta = document.createElement('meta');
+    iosMeta.setAttribute('name', 'apple-mobile-web-app-status-bar-style');
+    document.head.appendChild(iosMeta);
+  }
+  iosMeta.setAttribute('content', 'black-translucent');
+}
+
 // ===========================
 // CARGAR CANCIÓN
 // ===========================
