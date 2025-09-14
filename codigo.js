@@ -113,3 +113,63 @@ volumeSlider.addEventListener('input', (e) => {
     localStorage.setItem('volume', e.target.value);
 });
 
+const notificacionBar = document.getElementById('notificacion-bar');
+const notificacionTexto = document.getElementById('notificacion-texto');
+const cerrarNotificacion = document.getElementById('cerrarNotificacion');
+
+let notificacionCerrada = false; // bandera para saber si el usuario la cerró
+let ultimaNotificacion = ""; // para detectar cambios
+
+function cargarNotificacion() {
+    const texto = localStorage.getItem('notificacionActual') || "";
+
+    // Si cambió el texto, reseteamos la bandera de cerrado
+    if(texto !== ultimaNotificacion){
+        notificacionCerrada = false;
+        ultimaNotificacion = texto;
+    }
+
+    if(texto.trim() !== "" && !notificacionCerrada){
+        notificacionTexto.textContent = texto;
+        notificacionBar.style.display = 'flex';
+        notificacionBar.style.animation = 'slideDown 0.5s forwards';
+    } else {
+        notificacionBar.style.display = 'none';
+    }
+}
+
+// Inicializar al cargar
+cargarNotificacion();
+
+// Actualizar cada 2 segundos
+setInterval(cargarNotificacion, 2000);
+
+// Cerrar al hacer clic en la X
+cerrarNotificacion.addEventListener('click', () => {
+    notificacionBar.style.animation = 'fadeOut 0.5s forwards';
+    notificacionCerrada = true; // marcamos que el usuario la cerró
+    setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
+});
+
+
+
+function mostrarNotificacion(texto) {
+    if(!texto) return;
+
+    // Mostrar notificación interna
+    notificacionTexto.textContent = texto;
+    notificacionBar.style.display = "block";
+
+    // Enviar notificación push vía OneSignal
+    if(window.OneSignal){
+        OneSignal.push(function() {
+            OneSignal.sendSelfNotification(
+                "FM Ñanderoga", // título
+                texto,          // mensaje
+                null,           // url (null para no redirigir)
+                null            // icono (null para default)
+            );
+        });
+    }
+}
+
