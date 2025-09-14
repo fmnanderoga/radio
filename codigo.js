@@ -6,23 +6,28 @@ const iconPause = document.getElementById('iconPause');
 const statusEl = document.getElementById('status');
 const volumeSlider = document.getElementById('volume');
 
-// ===================== CONFIGURACIÓN =====================https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s1_33304_stream_944158957
-const streamURL = "https://lunix.txrx.stream/radioune/";
+const notificacionBar = document.getElementById('notificacion-bar');
+const notificacionTexto = document.getElementById('notificacion-texto');
+const cerrarNotificacion = document.getElementById('cerrarNotificacion');
 
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 10;
+let notificacionCerrada = false;
+
+// ===================== CONFIGURACIÓN =====================
+const streamURL = "https://lunix.txrx.stream/radioune/";
 
 // ===================== INICIALIZACIÓN =====================
 audio.preload = "auto";
 audio.src = streamURL;
-audio.volume = localStorage.getItem('volume') || 0.7;
+audio.volume = parseFloat(localStorage.getItem('volume')) || 0.7;
 volumeSlider.value = audio.volume;
 
 // ===================== FUNCIONES =====================
 function updatePlayPauseUI() {
-    if(isPlaying) {
+    if(isPlaying){
         iconPlay.style.display = 'none';
         iconPause.style.display = 'block';
         playPauseBtn.classList.remove('loading');
@@ -38,19 +43,17 @@ function setStatus(text, color="#ff3636") {
     statusEl.style.color = color;
 }
 
-// Agregar clase loading al botón
 function showLoading() {
     playPauseBtn.classList.add('loading');
 }
 
-// ===================== FUNCION PRINCIPAL DE REPRODUCCIÓN =====================
+// ===================== REPRODUCCIÓN =====================
 function playLive() {
-    if(isPlaying) return; // evita doble ejecución
+    if(isPlaying) return;
     playPauseBtn.disabled = true;
     setStatus("CONECTANDO...", "#ffa500");
     showLoading();
 
-    // Reiniciar fuente para reproducir siempre desde el stream en vivo
     audio.src = streamURL;
     audio.load();
     audio.volume = volumeSlider.value;
@@ -78,17 +81,16 @@ function playLive() {
 }
 
 // ===================== EVENTOS =====================
+
 // Botón Play/Pause
 playPauseBtn.addEventListener('click', () => {
-    if(isPlaying) {
-        // Pausar audio
+    if(isPlaying){
         audio.pause();
         isPlaying = false;
         updatePlayPauseUI();
         setStatus("PAUSADO", "#ffa500");
         if(reconnectTimeout) clearTimeout(reconnectTimeout);
     } else {
-        // Reproducir audio desde el stream en vivo
         playLive();
     }
 });
@@ -107,50 +109,28 @@ audio.addEventListener('error', () => {
     }
 });
 
-// Guardar volumen
+// Control de volumen
 volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
 
-const notificacionBar = document.getElementById('notificacion-bar');
-const notificacionTexto = document.getElementById('notificacion-texto');
-const cerrarNotificacion = document.getElementById('cerrarNotificacion');
-
-let notificacionCerrada = false; // bandera para saber si el usuario la cerró
-let ultimaNotificacion = ""; // para detectar cambios
-
-function cargarNotificacion() {
-    const texto = localStorage.getItem('notificacionActual') || "";
-
-    // Si cambió el texto, reseteamos la bandera de cerrado
-    if(texto !== ultimaNotificacion){
-        notificacionCerrada = false;
-        ultimaNotificacion = texto;
-    }
-
+// ===================== NOTIFICACIONES EN TIEMPO REAL =====================
+firebase.database().ref('notificacionActual').on('value', (snapshot) => {
+    const texto = snapshot.val() || "";
     if(texto.trim() !== "" && !notificacionCerrada){
         notificacionTexto.textContent = texto;
         notificacionBar.style.display = 'flex';
         notificacionBar.style.animation = 'slideDown 0.5s forwards';
     } else {
-        notificacionBar.style.display = 'none';
+        notificacionBar.style.animation = 'fadeOut 0.5s forwards';
+        setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
     }
-}
-
-// Inicializar al cargar
-cargarNotificacion();
-
-// Actualizar cada 2 segundos
-setInterval(cargarNotificacion, 2000);
-
-// Cerrar al hacer clic en la X
-cerrarNotificacion.addEventListener('click', () => {
-    notificacionBar.style.animation = 'fadeOut 0.5s forwards';
-    notificacionCerrada = true; // marcamos que el usuario la cerró
-    setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
 });
 
-
-
-
+// Cerrar notificación
+cerrarNotificacion.addEventListener('click', () => {
+    notificacionBar.style.animation = 'fadeOut 0.5s forwards';
+    notificacionCerrada = true;
+    setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
+});
