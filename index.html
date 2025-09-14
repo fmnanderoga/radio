@@ -65,6 +65,61 @@
     .nav-link:hover {
         color: rgb(66, 190, 17);
     }
+
+
+
+#notificacion-bar {
+    display: none;
+    position: fixed;
+    top: 70px; /* Debajo del navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 90%;
+    background: linear-gradient(135deg, #13af88, #0f8f5a);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    animation: slideDown 0.5s forwards;
+}
+
+.notificacion-contenido {
+    display: flex;
+    flex-direction: column;
+}
+
+.notificacion-titulo {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 5px;
+}
+
+.cerrar-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -91,7 +146,20 @@
   </div>
 </nav>
 
+<!-- Notificación -->
+<div id="notificacion-bar">
+    <div class="notificacion-contenido">
+        <span class="notificacion-titulo">FM Ñanderoga</span>
+        <span id="notificacion-texto"></span>
+    </div>
+    <button id="cerrarNotificacion" class="cerrar-btn">&times;</button>
+</div>
+
+
 <main class="main-content d-flex flex-column align-items-center">
+
+
+
     <div class="radio-player mb-3">
         <div class="radio-image">
             <img src="img/logo (2).png" alt="Portada de FM Ñanderoga">
@@ -114,6 +182,9 @@
         </div>
         <audio id="audio"></audio>
     </div>
+
+
+
 
     <button id="installBtn" class="install-btn mb-3">Instalar App</button>
 </main>
@@ -185,6 +256,22 @@
           .catch(err => console.log('Error SW:', err));
       });
   }
+</script>
+
+
+
+<!-- OneSignal SDK -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignal = window.OneSignal || [];
+OneSignal.push(function() {
+    OneSignal.init({
+        appId: "6c759470-d279-4652-927e-5a4000b4c896", // Tu App ID de OneSignal
+        notifyButton: {
+            enable: true, // Muestra el botón de suscripción
+        },
+    });
+});
 </script>
 
 </body>
