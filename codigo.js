@@ -153,23 +153,4 @@ cerrarNotificacion.addEventListener('click', () => {
 
 
 
-function mostrarNotificacion(texto) {
-    if(!texto) return;
-
-    // Mostrar notificación interna
-    notificacionTexto.textContent = texto;
-    notificacionBar.style.display = "block";
-
-    // Enviar notificación push vía OneSignal
-    if(window.OneSignal){
-        OneSignal.push(function() {
-            OneSignal.sendSelfNotification(
-                "FM Ñanderoga", // título
-                texto,          // mensaje
-                null,           // url (null para no redirigir)
-                null            // icono (null para default)
-            );
-        });
-    }
-}
 
