@@ -33,24 +33,17 @@ textarea, input[type="number"] {
     border-radius: 8px;
     font-size: 1rem;
 }
-#contador {
+#contador, #programaContador {
     font-weight: bold;
     font-size: 1.1rem;
     margin-top: 15px;
     color: #0f8f5a;
     text-align: center;
 }
-#status {
+#status, #programaStatus {
     text-align: center;
     margin-top: 10px;
     font-size: 1rem;
-}
-@media (max-width: 576px) {
-    h1 { font-size: 1.3rem; }
-    .card { padding: 15px; }
-    textarea, input[type="number"] { font-size: 0.95rem; }
-    .btn { width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding: 10px; }
-    #contador { font-size: 1rem; }
 }
 </style>
 </head>
@@ -60,6 +53,7 @@ textarea, input[type="number"] {
 
 <div class="card-container">
     <div class="card">
+        <!-- Notificación normal -->
         <div class="mb-3">
             <label for="notificacionTexto" class="form-label">Texto de la notificación:</label>
             <textarea class="form-control" id="notificacionTexto" rows="3" placeholder="Escribe aquí tu mensaje..."></textarea>
@@ -70,7 +64,7 @@ textarea, input[type="number"] {
             <input type="number" id="duracion" class="form-control" min="1" value="10">
         </div>
 
-        <div class="row g-2">
+        <div class="row g-2 mb-3">
             <div class="col-12 col-sm-6">
                 <button id="guardarBtn" class="btn btn-success w-100">Guardar</button>
             </div>
@@ -81,6 +75,30 @@ textarea, input[type="number"] {
 
         <div id="status" class="mt-3"></div>
         <div id="contador"></div>
+
+        <!-- Nueva notificación de programa -->
+        <hr>
+        <div class="mb-3 mt-4">
+            <label for="programaTexto" class="form-label">Texto de la notificación de programa:</label>
+            <textarea class="form-control" id="programaTexto" rows="2">Programa comienza en:</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="programaDuracion" class="form-label">Duración del programa (minutos):</label>
+            <input type="number" id="programaDuracion" class="form-control" min="1" value="10">
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-12 col-sm-6">
+                <button id="guardarProgramaBtn" class="btn btn-primary w-100">Guardar Programa</button>
+            </div>
+            <div class="col-12 col-sm-6">
+                <button id="borrarProgramaBtn" class="btn btn-secondary w-100">Borrar Programa</button>
+            </div>
+        </div>
+
+        <div id="programaStatus" class="mt-2"></div>
+        <div id="programaContador"></div>
     </div>
 </div>
 
@@ -104,6 +122,7 @@ const database = firebase.database();
 </script>
 
 <script>
+// ===================== VARIABLES DOM =====================
 const guardarBtn = document.getElementById('guardarBtn');
 const borrarBtn = document.getElementById('borrarBtn');
 const notificacionTexto = document.getElementById('notificacionTexto');
@@ -111,77 +130,139 @@ const duracionInput = document.getElementById('duracion');
 const statusEl = document.getElementById('status');
 const contadorEl = document.getElementById('contador');
 
-let timeoutId = null;
 let intervalId = null;
 
-// Cargar la notificación actual desde Firebase al abrir el panel
-database.ref('notificacionActual').get().then(snapshot => {
-    if(snapshot.exists()){
-        notificacionTexto.value = snapshot.val();
+// ===================== NOTIFICACIÓN NORMAL =====================
+database.ref('notificacionActual').on('value', snapshot => {
+    const data = snapshot.val();
+    if(data && data.texto){
+        notificacionTexto.value = data.texto;
+        if(data.expiraEn){
+            iniciarCuentaAtras(data.expiraEn);
+        }
+    } else {
+        notificacionTexto.value = "";
+        contadorEl.textContent = "";
     }
 });
 
-// Función para borrar notificación
 function borrarNotificacion() {
-    notificacionTexto.value = "";
+    database.ref('notificacionActual').set(null);
     statusEl.textContent = "Notificación borrada";
     statusEl.className = "mt-3 text-warning";
     contadorEl.textContent = "";
-
-    // Borrar en Firebase
-    database.ref('notificacionActual').set("");
-
-    if(timeoutId) clearTimeout(timeoutId);
     if(intervalId) clearInterval(intervalId);
 }
 
-// Función para iniciar cuenta atrás
-function iniciarCuentaAtras(minutos) {
-    let segundosRestantes = minutos * 60;
-    actualizarContador(segundosRestantes);
-
+function iniciarCuentaAtras(timestamp) {
     if(intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => {
-        segundosRestantes--;
-        if(segundosRestantes <= 0){
+        const ahora = Date.now();
+        const restante = Math.floor((timestamp - ahora) / 1000);
+        if(restante <= 0){
             clearInterval(intervalId);
-            contadorEl.textContent = "";
+            borrarNotificacion();
             return;
         }
-        actualizarContador(segundosRestantes);
+        const m = Math.floor(restante / 60);
+        const s = ('0' + (restante % 60)).slice(-2);
+        contadorEl.textContent = `Tiempo restante: ${m}:${s}`;
     }, 1000);
 }
 
-function actualizarContador(segundos) {
-    const m = Math.floor(segundos/60);
-    const s = ('0'+(segundos%60)).slice(-2);
-    contadorEl.textContent = `Tiempo restante: ${m}:${s}`;
-}
-
-// Guardar la notificación en Firebase
 guardarBtn.addEventListener('click', () => {
     const texto = notificacionTexto.value.trim();
     const minutos = parseInt(duracionInput.value);
     if(!texto || !minutos) return;
 
-    database.ref('notificacionActual').set(texto)
-        .then(() => {
-            statusEl.textContent = "Notificación guardada";
-            statusEl.className = "mt-3 text-success";
+    const expiraEn = Date.now() + minutos * 60 * 1000;
 
-            if(timeoutId) clearTimeout(timeoutId);
-            timeoutId = setTimeout(borrarNotificacion, minutos * 60 * 1000);
-
-            iniciarCuentaAtras(minutos);
-        })
-        .catch(err => {
-            statusEl.textContent = "Error al guardar: " + err;
-            statusEl.className = "mt-3 text-danger";
-        });
+    database.ref('notificacionActual').set({
+        texto: texto,
+        expiraEn: expiraEn
+    })
+    .then(() => {
+        statusEl.textContent = "Notificación guardada";
+        statusEl.className = "mt-3 text-success";
+        iniciarCuentaAtras(expiraEn);
+    })
+    .catch(err => {
+        statusEl.textContent = "Error al guardar: " + err;
+        statusEl.className = "mt-3 text-danger";
+    });
 });
 
-// Borrar la notificación manualmente
 borrarBtn.addEventListener('click', borrarNotificacion);
+
+// ===================== NOTIFICACIÓN DE PROGRAMA =====================
+const programaTextoInput = document.getElementById('programaTexto');
+const programaDuracionInput = document.getElementById('programaDuracion');
+const guardarProgramaBtn = document.getElementById('guardarProgramaBtn');
+const borrarProgramaBtn = document.getElementById('borrarProgramaBtn');
+const programaStatusEl = document.getElementById('programaStatus');
+const programaContadorEl = document.getElementById('programaContador');
+
+let programaIntervalId = null;
+
+// Leer notificación de programa al cargar
+database.ref('notificacionPrograma').on('value', snapshot => {
+    const data = snapshot.val();
+    if(data && data.texto && data.expiraEn){
+        programaTextoInput.value = data.texto;
+        iniciarCuentaAtrasPrograma(data.expiraEn);
+    } else {
+        programaContadorEl.textContent = "";
+        programaTextoInput.value = "Programa comienza en:";
+    }
+});
+
+function borrarNotificacionPrograma() {
+    database.ref('notificacionPrograma').set(null);
+    programaStatusEl.textContent = "Notificación de programa borrada";
+    programaStatusEl.className = "mt-2 text-warning";
+    programaContadorEl.textContent = "";
+    if(programaIntervalId) clearInterval(programaIntervalId);
+}
+
+function iniciarCuentaAtrasPrograma(timestamp) {
+    if(programaIntervalId) clearInterval(programaIntervalId);
+    programaIntervalId = setInterval(() => {
+        const ahora = Date.now();
+        const restante = Math.floor((timestamp - ahora) / 1000);
+        if(restante <= 0){
+            clearInterval(programaIntervalId);
+            borrarNotificacionPrograma();
+            return;
+        }
+        const m = Math.floor(restante / 60);
+        const s = ('0' + (restante % 60)).slice(-2);
+        programaContadorEl.textContent = `${programaTextoInput.value} ${m}:${s}`;
+    }, 1000);
+}
+
+guardarProgramaBtn.addEventListener('click', () => {
+    const texto = programaTextoInput.value.trim() || "Programa comienza en:";
+    const minutos = parseInt(programaDuracionInput.value);
+    if(!minutos) return;
+
+    const expiraEn = Date.now() + minutos * 60 * 1000;
+
+    database.ref('notificacionPrograma').set({
+        texto: texto,
+        expiraEn: expiraEn
+    })
+    .then(() => {
+        programaStatusEl.textContent = "Notificación de programa guardada";
+        programaStatusEl.className = "mt-2 text-success";
+        iniciarCuentaAtrasPrograma(expiraEn);
+    })
+    .catch(err => {
+        programaStatusEl.textContent = "Error al guardar: " + err;
+        programaStatusEl.className = "mt-2 text-danger";
+    });
+});
+
+borrarProgramaBtn.addEventListener('click', borrarNotificacionPrograma);
 </script>
 
 </body>
