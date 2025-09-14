@@ -60,9 +60,9 @@
 /* Navbar hover */
 .nav-link:hover { color: rgb(66, 190, 17); }
 
-/* Notificación */
+/* Notificación normal: se mantiene igual que antes */
 #notificacion-bar {
-    display: none;
+    display: none; /* no ocupa espacio cuando no aparece */
     position: fixed;
     top: 70px;
     left: 50%;
@@ -82,12 +82,53 @@
     align-items: flex-start;
     animation: slideDown 0.5s forwards;
 }
-.notificacion-contenido { display: flex; flex-direction: column; }
-.notificacion-titulo { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 5px; }
-.cerrar-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
 
-@keyframes slideDown { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+.notificacion-contenido {
+    display: flex;
+    flex-direction: column;
+}
+
+.notificacion-titulo {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 5px;
+}
+
+.cerrar-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Notificación de programa: centrada y ocupa espacio solo cuando aparece */
+#notificacion-programa-bar {
+    display: none; /* solo aparece cuando se activa */
+    max-width: 600px;
+    width: 90%;
+    margin: 15px auto 30px auto; /* arriba 15px, abajo 30px */
+    background: #fcd452;
+    color: #0c0c0c;
+    padding: 12px 20px;
+    border-color: #000;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center; /* texto centrado */
+    align-items: center;
+    position: relative;
+    gap: 10px;
+}
+
+#notificacion-programa-bar span {
+    text-align: center;
+    flex: 1; /* ocupa todo el ancho disponible */
+}
+
 </style>
 </head>
 <body>
@@ -150,6 +191,14 @@
     <button id="installBtn" class="install-btn mb-3">Instalar App</button>
 </main>
 
+<center>
+<!-- Notificación de Programa -->
+<div id="notificacion-programa-bar">
+    <span id="notificacion-programa-texto">Programa comienza en: 00:00</span>
+    <button id="cerrarNotificacionPrograma" class="cerrar-btn">&times;</button>
+</div>
+
+</center>
 <footer style="background-color: rgba(255,255,255,0.8); color: #000; border-top: 2px solid rgba(255,255,255,0.2); padding:30px 0;">
     <div class="container text-center">
         <h5 style="color:#13af88;">FM Ñanderoga</h5>
