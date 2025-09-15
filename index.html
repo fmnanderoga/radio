@@ -244,16 +244,27 @@ document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
       else { bsCollapse.hide(); }
     });
 });
-// Cierra navbar si se toca fuera del menú (solo en móvil)
-document.addEventListener('click', (e) => {
-  if (window.innerWidth <= 1024) { // límite para móviles/tablets
-    if (navbarCollapse.classList.contains('show') && 
-        !navbarCollapse.contains(e.target) && 
-        !e.target.classList.contains('navbar-toggler')) {
+// Obtener referencias
+const navbarCollapse = document.getElementById('navbarNav');
+const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false }); // no abre al iniciar
+const navbarToggler = document.querySelector('.navbar-toggler');
+
+// Función para cerrar navbar al tocar fuera
+function handleClickOutsideNavbar(e) {
+  // Solo para pantallas móviles/tablet
+  if (window.innerWidth <= 1024) {
+    // Si el menú está abierto y el click NO está dentro del menú ni en el toggler
+    if (navbarCollapse.classList.contains('show') &&
+        !navbarCollapse.contains(e.target) &&
+        !navbarToggler.contains(e.target)) {
       bsCollapse.hide();
     }
   }
-});
+}
+
+// Agregar listener
+document.addEventListener('click', handleClickOutsideNavbar);
+
 // PWA Install
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
