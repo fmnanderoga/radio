@@ -410,9 +410,30 @@ footer {
 <footer>
   <p>&copy; 2025 FM Ñanderoga - Música</p>
 </footer>
-
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>const navbarCollapse = document.getElementById('navbarNav');
+const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false });
+
+// Cierra navbar al tocar un link
+document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navbarCollapse.classList.contains('show')) {
+      bsCollapse.hide();
+    }
+  });
+});
+
+// Cierra navbar si se toca fuera del menú (solo en móvil)
+document.addEventListener('click', (e) => {
+  if (window.innerWidth <= 1024) { // límite para móviles/tablets
+    if (navbarCollapse.classList.contains('show') && 
+        !navbarCollapse.contains(e.target) && 
+        !e.target.classList.contains('navbar-toggler')) {
+      bsCollapse.hide();
+    }
+  }
+});</script>
 <script src="playlist.js"></script>
 </body>
 </html>
