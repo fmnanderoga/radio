@@ -235,28 +235,18 @@
 <script src="codigo.js"></script>
 
 <script>
+const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 const navbarCollapse = document.getElementById('navbarNav');
-const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false });
 
-// Cierra navbar al tocar un link
-document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+navLinks.forEach(link => {
   link.addEventListener('click', () => {
-    if (navbarCollapse.classList.contains('show')) {
+    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+    if (bsCollapse && navbarCollapse.classList.contains('show')) {
       bsCollapse.hide();
     }
   });
 });
 
-// Cierra navbar si se toca fuera del menú (solo en móvil)
-document.addEventListener('click', (e) => {
-  if (window.innerWidth <= 1024) { // límite para móviles/tablets
-    if (navbarCollapse.classList.contains('show') && 
-        !navbarCollapse.contains(e.target) && 
-        !e.target.classList.contains('navbar-toggler')) {
-      bsCollapse.hide();
-    }
-  }
-});
 
 // PWA Install
 let deferredPrompt;
