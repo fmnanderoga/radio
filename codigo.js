@@ -8,19 +8,13 @@ const volumeSlider = document.getElementById('volume');
 
 const notificacionBar = document.getElementById('notificacion-bar');
 const notificacionTexto = document.getElementById('notificacion-texto');
-const cerrarNotificacionBtn = document.getElementById('cerrarNotificacion');
-
-const programaBar = document.getElementById('notificacion-programa-bar');
-const programaTexto = document.getElementById('notificacion-programa-texto');
-const cerrarProgramaBtn = document.getElementById('cerrarNotificacionPrograma');
+const cerrarNotificacion = document.getElementById('cerrarNotificacion');
 
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 10;
 let notificacionCerrada = false;
-let programaIntervalId = null;
-let programaTextoBase = ""; // solo texto fijo
 
 // ===================== CONFIGURACIÓN =====================
 const streamURL = "https://lunix.txrx.stream/radioune/";
@@ -122,72 +116,95 @@ volumeSlider.addEventListener('input', (e) => {
 });
 
 // ===================== NOTIFICACIÓN NORMAL =====================
+const cerrarNotificacionBtn = document.getElementById('cerrarNotificacion');
+const programaBar = document.getElementById('notificacion-programa-bar');
+const programaTexto = document.getElementById('notificacion-programa-texto');
+const cerrarProgramaBtn = document.getElementById('cerrarNotificacionPrograma');
+
+let programaIntervalId = null;
+let notificacionIntervalId = null;
+let programaTextoBase = "";
+
+// Normal notification
 firebase.database().ref('notificacionActual').on('value', snapshot => {
     const data = snapshot.val();
     if (data && data.texto && data.texto.trim() !== "") {
         notificacionCerrada = false;
-        mostrarNotificacion(data.texto);
+        mostrarNotificacion(data.texto, data.expiraEn || null);
     } else {
         ocultarNotificacion();
     }
 });
 
-function mostrarNotificacion(texto){
+function mostrarNotificacion(texto, expiraEn){
     if (notificacionCerrada || !texto || texto.trim() === "") return;
 
     notificacionTexto.textContent = texto;
     notificacionBar.style.display = 'flex';
     notificacionBar.style.animation = 'slideDown 0.5s forwards';
+
+    if(expiraEn){
+        if(notificacionIntervalId) clearInterval(notificacionIntervalId);
+        notificacionIntervalId = setInterval(()=>{
+            const restante = Math.floor((expiraEn - Date.now())/1000);
+            if(restante <= 0){
+                clearInterval(notificacionIntervalId);
+                ocultarNotificacion();
+                return;
+            }
+        },1000);
+    }
 }
 
 function ocultarNotificacion(){
     notificacionBar.style.animation = 'fadeOut 0.5s forwards';
-    setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
+    setTimeout(()=>{ notificacionBar.style.display = 'none'; },500);
 }
 
-cerrarNotificacionBtn.addEventListener('click', () => {
+cerrarNotificacionBtn.addEventListener('click', ()=>{
     notificacionCerrada = true;
     ocultarNotificacion();
 });
 
-// ===================== NOTIFICACIÓN DE PROGRAMA =====================
-firebase.database().ref('notificacionPrograma').on('value', snapshot => {
-    const data = snapshot.val();
-    if (data && data.texto && data.expiraEn) {
-        // Guardamos solo el texto fijo
-        programaTextoBase = data.texto;
-        mostrarPrograma(data.expiraEn);
-    } else {
-        ocultarPrograma();
-    }
-});
+// ===================== NOTIFICACIÓN DE PROGRAMA SOLO EN MÓVIL =====================
+function isMobile() {
+    return window.innerWidth <= 768;
+}
 
-function mostrarPrograma(expiraEn) {
-    if (programaIntervalId) clearInterval(programaIntervalId);
-
-    programaBar.style.display = 'flex';
-    programaBar.style.animation = 'slideDown 0.5s forwards';
-
-    programaIntervalId = setInterval(() => {
-        const ahora = Date.now();
-        const restante = Math.floor((expiraEn - ahora)/1000);
-        if (restante <= 0) {
-            clearInterval(programaIntervalId);
-            ocultarPrograma();
+if(isMobile()){
+    firebase.database().ref('notificacionPrograma').on('value', snapshot => {
+        const data = snapshot.val();
+        if(!data || !data.texto) {
+            programaBar.style.display = 'none';
+            if(programaIntervalId) clearInterval(programaIntervalId);
             return;
         }
-        const m = Math.floor(restante / 60);
-        const s = ('0' + (restante % 60)).slice(-2);
-        programaTexto.textContent = `${programaTextoBase} ${m}:${s}`;
-    }, 1000);
-}
 
-function ocultarPrograma(){
-    if (programaIntervalId) clearInterval(programaIntervalId);
-    programaBar.style.animation = 'fadeOut 0.5s forwards';
-    setTimeout(() => { programaBar.style.display = 'none'; }, 500);
-}
+        programaTextoBase = data.texto;
+        const expiraEn = data.expiraEn || Date.now() + 10*60*1000;
 
-cerrarProgramaBtn.addEventListener('click', () => {
-    ocultarPrograma();
-});
+        programaBar.style.display = 'flex';
+
+        if(programaIntervalId) clearInterval(programaIntervalId);
+
+        programaIntervalId = setInterval(() => {
+            const restante = Math.floor((expiraEn - Date.now())/1000);
+            if(restante <= 0){
+                clearInterval(programaIntervalId);
+                programaBar.style.display = 'none';
+                return;
+            }
+            const m = Math.floor(restante/60);
+            const s = ('0' + (restante % 60)).slice(-2);
+            programaTexto.textContent = `${programaTextoBase} ${m}:${s}`;
+        },1000);
+    });
+
+    cerrarProgramaBtn.addEventListener('click', ()=>{
+        programaBar.style.display = 'none';
+        if(programaIntervalId) clearInterval(programaIntervalId);
+    });
+}else{
+    // En PC siempre oculto
+    programaBar.style.display = 'none';
+}
