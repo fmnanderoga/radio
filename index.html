@@ -244,7 +244,16 @@ document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
       else { bsCollapse.hide(); }
     });
 });
-
+// Cierra navbar si se toca fuera del menú (solo en móvil)
+document.addEventListener('click', (e) => {
+  if (window.innerWidth <= 1024) { // límite para móviles/tablets
+    if (navbarCollapse.classList.contains('show') && 
+        !navbarCollapse.contains(e.target) && 
+        !e.target.classList.contains('navbar-toggler')) {
+      bsCollapse.hide();
+    }
+  }
+});
 // PWA Install
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
