@@ -8,13 +8,19 @@ const volumeSlider = document.getElementById('volume');
 
 const notificacionBar = document.getElementById('notificacion-bar');
 const notificacionTexto = document.getElementById('notificacion-texto');
-const cerrarNotificacion = document.getElementById('cerrarNotificacion');
+const cerrarNotificacionBtn = document.getElementById('cerrarNotificacion');
+
+const programaBar = document.getElementById('notificacion-programa-bar');
+const programaTexto = document.getElementById('notificacion-programa-texto');
+const cerrarProgramaBtn = document.getElementById('cerrarNotificacionPrograma');
 
 let isPlaying = false;
 let reconnectTimeout = null;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 10;
 let notificacionCerrada = false;
+let programaIntervalId = null;
+let programaTextoBase = ""; // solo texto fijo
 
 // ===================== CONFIGURACIÓN =====================
 const streamURL = "https://lunix.txrx.stream/radioune/";
@@ -114,14 +120,6 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
-// ===================== ELEMENTOS DEL DOM =====================
-const cerrarNotificacionBtn = document.getElementById('cerrarNotificacion');
-
-const programaBar = document.getElementById('notificacion-programa-bar');
-const programaTexto = document.getElementById('notificacion-programa-texto');
-const cerrarProgramaBtn = document.getElementById('cerrarNotificacionPrograma');
-
-let programaIntervalId = null;
 
 // ===================== NOTIFICACIÓN NORMAL =====================
 firebase.database().ref('notificacionActual').on('value', snapshot => {
@@ -155,39 +153,33 @@ cerrarNotificacionBtn.addEventListener('click', () => {
 // ===================== NOTIFICACIÓN DE PROGRAMA =====================
 firebase.database().ref('notificacionPrograma').on('value', snapshot => {
     const data = snapshot.val();
-    if (data && data.texto && data.texto.trim() !== "") {
-        mostrarPrograma(data.texto, data.expiraEn || null);
+    if (data && data.texto && data.expiraEn) {
+        // Guardamos solo el texto fijo
+        programaTextoBase = data.texto;
+        mostrarPrograma(data.expiraEn);
     } else {
         ocultarPrograma();
     }
 });
 
-function mostrarPrograma(texto, expiraEn=null){
-    if (!texto || texto.trim() === "") {
-        ocultarPrograma();
-        return;
-    }
-
+function mostrarPrograma(expiraEn) {
     if (programaIntervalId) clearInterval(programaIntervalId);
 
-    programaTexto.textContent = texto;
     programaBar.style.display = 'flex';
     programaBar.style.animation = 'slideDown 0.5s forwards';
 
-    if (expiraEn) {
-        programaIntervalId = setInterval(() => {
-            const ahora = Date.now();
-            const restante = Math.floor((expiraEn - ahora)/1000);
-            if (restante <= 0){
-                clearInterval(programaIntervalId);
-                ocultarPrograma();
-                return;
-            }
-            const m = Math.floor(restante/60);
-            const s = ('0' + (restante % 60)).slice(-2);
-            programaTexto.textContent = `Programa comienza en: ${m}:${s}`;
-        }, 1000);
-    }
+    programaIntervalId = setInterval(() => {
+        const ahora = Date.now();
+        const restante = Math.floor((expiraEn - ahora)/1000);
+        if (restante <= 0) {
+            clearInterval(programaIntervalId);
+            ocultarPrograma();
+            return;
+        }
+        const m = Math.floor(restante / 60);
+        const s = ('0' + (restante % 60)).slice(-2);
+        programaTexto.textContent = `${programaTextoBase} ${m}:${s}`;
+    }, 1000);
 }
 
 function ocultarPrograma(){
