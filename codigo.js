@@ -114,97 +114,88 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
     localStorage.setItem('volume', e.target.value);
 });
-
-// ===================== NOTIFICACIÓN NORMAL =====================
+// ===================== ELEMENTOS DEL DOM =====================
 const cerrarNotificacionBtn = document.getElementById('cerrarNotificacion');
+
 const programaBar = document.getElementById('notificacion-programa-bar');
 const programaTexto = document.getElementById('notificacion-programa-texto');
 const cerrarProgramaBtn = document.getElementById('cerrarNotificacionPrograma');
 
 let programaIntervalId = null;
-let notificacionIntervalId = null;
-let programaTextoBase = "";
 
-// Normal notification
+// ===================== NOTIFICACIÓN NORMAL =====================
 firebase.database().ref('notificacionActual').on('value', snapshot => {
     const data = snapshot.val();
     if (data && data.texto && data.texto.trim() !== "") {
         notificacionCerrada = false;
-        mostrarNotificacion(data.texto, data.expiraEn || null);
+        mostrarNotificacion(data.texto);
     } else {
         ocultarNotificacion();
     }
 });
 
-function mostrarNotificacion(texto, expiraEn){
+function mostrarNotificacion(texto){
     if (notificacionCerrada || !texto || texto.trim() === "") return;
 
     notificacionTexto.textContent = texto;
     notificacionBar.style.display = 'flex';
     notificacionBar.style.animation = 'slideDown 0.5s forwards';
-
-    if(expiraEn){
-        if(notificacionIntervalId) clearInterval(notificacionIntervalId);
-        notificacionIntervalId = setInterval(()=>{
-            const restante = Math.floor((expiraEn - Date.now())/1000);
-            if(restante <= 0){
-                clearInterval(notificacionIntervalId);
-                ocultarNotificacion();
-                return;
-            }
-        },1000);
-    }
 }
 
 function ocultarNotificacion(){
     notificacionBar.style.animation = 'fadeOut 0.5s forwards';
-    setTimeout(()=>{ notificacionBar.style.display = 'none'; },500);
+    setTimeout(() => { notificacionBar.style.display = 'none'; }, 500);
 }
 
-cerrarNotificacionBtn.addEventListener('click', ()=>{
+cerrarNotificacionBtn.addEventListener('click', () => {
     notificacionCerrada = true;
     ocultarNotificacion();
 });
 
-// ===================== NOTIFICACIÓN DE PROGRAMA SOLO EN MÓVIL =====================
-function isMobile() {
-    return window.innerWidth <= 768;
-}
+// ===================== NOTIFICACIÓN DE PROGRAMA =====================
+firebase.database().ref('notificacionPrograma').on('value', snapshot => {
+    const data = snapshot.val();
+    if (data && data.texto && data.texto.trim() !== "") {
+        mostrarPrograma(data.texto, data.expiraEn || null);
+    } else {
+        ocultarPrograma();
+    }
+});
 
-if(isMobile()){
-    firebase.database().ref('notificacionPrograma').on('value', snapshot => {
-        const data = snapshot.val();
-        if(!data || !data.texto) {
-            programaBar.style.display = 'none';
-            if(programaIntervalId) clearInterval(programaIntervalId);
-            return;
-        }
+function mostrarPrograma(texto, expiraEn=null){
+    if (!texto || texto.trim() === "") {
+        ocultarPrograma();
+        return;
+    }
 
-        programaTextoBase = data.texto;
-        const expiraEn = data.expiraEn || Date.now() + 10*60*1000;
+    if (programaIntervalId) clearInterval(programaIntervalId);
 
-        programaBar.style.display = 'flex';
+    programaTexto.textContent = texto;
+    programaBar.style.display = 'flex';
+    programaBar.style.animation = 'slideDown 0.5s forwards';
 
-        if(programaIntervalId) clearInterval(programaIntervalId);
-
+    if (expiraEn) {
         programaIntervalId = setInterval(() => {
-            const restante = Math.floor((expiraEn - Date.now())/1000);
-            if(restante <= 0){
+            const ahora = Date.now();
+            const restante = Math.floor((expiraEn - ahora)/1000);
+            if (restante <= 0){
                 clearInterval(programaIntervalId);
-                programaBar.style.display = 'none';
+                ocultarPrograma();
                 return;
             }
             const m = Math.floor(restante/60);
             const s = ('0' + (restante % 60)).slice(-2);
-            programaTexto.textContent = `${programaTextoBase} ${m}:${s}`;
-        },1000);
-    });
-
-    cerrarProgramaBtn.addEventListener('click', ()=>{
-        programaBar.style.display = 'none';
-        if(programaIntervalId) clearInterval(programaIntervalId);
-    });
-}else{
-    // En PC siempre oculto
-    programaBar.style.display = 'none';
+            programaTexto.textContent = `Programa comienza en: ${m}:${s}`;
+        }, 1000);
+    }
 }
+
+function ocultarPrograma(){
+    if (programaIntervalId) clearInterval(programaIntervalId);
+    programaBar.style.animation = 'fadeOut 0.5s forwards';
+    setTimeout(() => { programaBar.style.display = 'none'; }, 500);
+}
+
+cerrarProgramaBtn.addEventListener('click', () => {
+    ocultarPrograma();
+});
