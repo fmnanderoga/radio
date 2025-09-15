@@ -50,7 +50,7 @@ const songs = [
     name: "BAILE INoLVIDABLE - Bad Bunny", 
     url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", 
     image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
-    colors: ["#f12711","#f5af19","#f12711","#f5af19"], 
+    colors: ["#f12711","#f5af19","#ff4fd3ff","#f5af19"], 
     themeColor: "#f12711"
   },
   { 
@@ -64,8 +64,8 @@ const songs = [
     name: "SOLEAO - Myke Towers & Quevedo", 
     url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", 
     image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png", 
-    colors: ["#ff512f","#dd2476","#ff512f","#dd2476"], 
-    themeColor: "#dd2476"
+    colors: ["#fa992aff","#ddc124ff","#dadadaff","#ffca37ff"], 
+    themeColor: "#f1842bff"
   },
   { 
     name: "Tu Misterioso Alguien - Miranda!", 
