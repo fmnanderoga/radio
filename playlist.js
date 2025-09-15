@@ -173,16 +173,41 @@ let currentIndex = 0;
 let isPlaying = false;
 
 // ===========================
-// CREAR LISTA EN HTML
+// CREAR LISTA EN HTML CON MINIATURA
 // ===========================
 songs.forEach((song, index) => {
   const div = document.createElement("div");
   div.classList.add("song-item");
-  div.textContent = song.name;
+
+  // Contenedor interno para imagen + texto
+  const innerDiv = document.createElement("div");
+  innerDiv.style.display = "flex";
+  innerDiv.style.alignItems = "center";
+  innerDiv.style.gap = "10px";
+
+  // Imagen
+  const img = document.createElement("img");
+  img.src = song.image || "img/default.png";
+  img.alt = song.name;
+  img.style.width = "50px";
+  img.style.height = "50px";
+  img.style.objectFit = "cover";
+  img.style.borderRadius = "6px";
+  img.style.flexShrink = "0";
+
+  // Texto
+  const span = document.createElement("span");
+  span.textContent = song.name;
+
+  innerDiv.appendChild(img);
+  innerDiv.appendChild(span);
+  div.appendChild(innerDiv);
+
   div.addEventListener("click", () => {
     loadSong(index);
     playSong();
   });
+
   songList.appendChild(div);
 });
 
@@ -344,3 +369,4 @@ audio.addEventListener("ended", () => {
   loadSong(currentIndex);
   playSong();
 });
+
