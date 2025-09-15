@@ -257,18 +257,31 @@ function pauseSong() {
 playPauseBtn.addEventListener("click", () => isPlaying ? pauseSong() : playSong());
 
 // ===========================
-// VOLUMEN / MUTE
+// VOLUMEN / MUTE CON 3 NIVELES
 // ===========================
+let volumeState = 0; // 0 = 100%, 1 = 50%, 2 = mute
+
 muteBtn.addEventListener("click", () => {
-  if(audio.muted){
+  if(volumeState === 0){
+    // Paso 1 → 50%
     audio.muted = false;
-    audio.volume = lastVolume;
-    muteBtn.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
-  } else {
+    audio.volume = 0.5;
+    muteBtn.innerHTML = '<i class="bi bi-volume-down-fill"></i>';
+    volumeState = 1;
+  } else if(volumeState === 1){
+    // Paso 2 → mute
     audio.muted = true;
     muteBtn.innerHTML = '<i class="bi bi-volume-mute-fill"></i>';
+    volumeState = 2;
+  } else {
+    // Paso 3 → 100%
+    audio.muted = false;
+    audio.volume = 1;
+    muteBtn.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
+    volumeState = 0;
   }
 });
+
 
 // ===========================
 // COMPARTIR CANCIÓN ACTUAL (ENLACE A LA PÁGINA CON HASH)
