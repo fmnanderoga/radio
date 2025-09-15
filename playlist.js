@@ -54,9 +54,9 @@ const songs = [
     themeColor: "#f12711"
   },
   { 
-    name: "Obsesionario - Tan Bionica", 
-    url: "audio/Obsesionario - Tan Bionica.mp3", 
-    image: "https://images.genius.com/037bf7c9edc96ea77da05986174d4083.640x640x1.jpg", 
+    name: "Ciudad Mágica - Tan Bionica", 
+    url: "audio/Ciudad Mágica - Tan Bionica.mp3", 
+    image: "https://i.scdn.co/image/ab67616d0000b2735551299a2da1d16b7a3b07c2", 
     colors: ["#8360c3","#2ebf91","#8360c3","#2ebf91"], 
     themeColor: "#2ebf91"
   },
