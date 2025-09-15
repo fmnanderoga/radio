@@ -235,18 +235,15 @@
 <script src="codigo.js"></script>
 
 <script>
-const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-const navbarCollapse = document.getElementById('navbarNav');
-
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-    if (bsCollapse && navbarCollapse.classList.contains('show')) {
-      bsCollapse.hide();
-    }
-  });
+// Navbar collapse mobile
+document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+    link.addEventListener('click', function () {
+      const collapseEl = document.getElementById('navbarNav');
+      const bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
+      if (!bsCollapse) { new bootstrap.Collapse(collapseEl, { toggle: true }); }
+      else { bsCollapse.hide(); }
+    });
 });
-
 
 // PWA Install
 let deferredPrompt;
