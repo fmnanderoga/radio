@@ -36,8 +36,8 @@ const songs = [
     name: "Abracadabra - Lady Gaga", 
     url: "audio/Abracadabra - Lady Gaga.mp3", 
     image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg", 
-    colors: ["#ff0000","#ff7300","#ffeb00","#00ff73"], 
-    themeColor: "#ff0000"
+    colors: ["#080808ff","#575757ff","#020202ff","#4e4e4eff"], 
+    themeColor: "#6d6d6dff"
   },
   { 
     name: "COQUETA - Grupo Frontera, Fuerza Regida", 
@@ -73,15 +73,15 @@ const songs = [
     image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", 
     sharedBy: "Música compartida por: Lautaro", 
     colors: ["#00c6ff","#0072ff","#00c6ff","#0072ff"], 
-    themeColor: "#0072ff"
+    themeColor: "#195dc4ff"
   },
   { 
     name: "Bones - Galantis", 
     url: "audio/Bones - Galantis.mp3", 
     image: "https://wololosound.com/wp-content/uploads/50949487_1773159046123312_8360443734776610816_n.jpg", 
     sharedBy: "Música compartida por: Euge", 
-    colors: ["#00f260","#0575e6","#00f260","#0575e6"], 
-    themeColor: "#0575e6"
+     colors: ["#00c6ff","#ff45e0ff","#f8c537ff","#9726e2ff"], 
+    themeColor: "#be27b7ff"
   },
 ];
 
