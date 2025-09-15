@@ -168,9 +168,12 @@ const progressBar = document.getElementById("progressBar");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const sharedByEl = document.getElementById("sharedBy");
+const muteBtn = document.getElementById("muteBtn");
+const shareBtn = document.getElementById("shareBtn");
 
 let currentIndex = 0;
 let isPlaying = false;
+let lastVolume = 1; // para restaurar volumen
 
 // ===========================
 // CREAR LISTA EN HTML CON MINIATURA
@@ -230,9 +233,7 @@ function loadSong(index) {
     setAnimatedBackground(song.colors, song.themeColor);
   }
 
-  // Actualiza barra de estado
   updateStatusBarColor(song.themeColor);
-
   updateMediaSession();
 }
 
@@ -256,6 +257,42 @@ function pauseSong() {
 playPauseBtn.addEventListener("click", () => isPlaying ? pauseSong() : playSong());
 
 // ===========================
+// VOLUMEN / MUTE
+// ===========================
+muteBtn.addEventListener("click", () => {
+  if(audio.muted){
+    audio.muted = false;
+    audio.volume = lastVolume;
+    muteBtn.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
+  } else {
+    audio.muted = true;
+    muteBtn.innerHTML = '<i class="bi bi-volume-mute-fill"></i>';
+  }
+});
+
+// ===========================
+// COMPARTIR CANCIÓN ACTUAL (ENLACE A LA PÁGINA CON HASH)
+// ===========================
+shareBtn.addEventListener("click", () => {
+  const song = songs[currentIndex];
+  const songHash = `#song-${currentIndex}`;
+  const pageUrl = window.location.origin + window.location.pathname + songHash;
+
+  const shareData = {
+    title: song.name,
+    text: `Escucha esta canción: ${song.name}`,
+    url: pageUrl
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(err => console.log(err));
+  } else {
+    navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+    alert("Enlace de la canción copiado al portapapeles!");
+  }
+});
+
+// ===========================
 // SIGUIENTE / ANTERIOR
 // ===========================
 nextBtn.addEventListener("click", () => {
@@ -271,10 +308,20 @@ prevBtn.addEventListener("click", () => {
 });
 
 // ===========================
-// CARGAR PRIMERA CANCIÓN
+// CARGAR PRIMERA CANCIÓN (O DESDE HASH)
 // ===========================
 window.addEventListener("load", () => {
   audio.preload = "auto";
+
+  const hash = window.location.hash;
+  if (hash.startsWith("#song-")) {
+    const index = parseInt(hash.replace("#song-", ""));
+    if (!isNaN(index) && index >= 0 && index < songs.length) {
+      loadSong(index);
+      return;
+    }
+  }
+
   loadSong(0);
 });
 
@@ -369,4 +416,3 @@ audio.addEventListener("ended", () => {
   loadSong(currentIndex);
   playSong();
 });
-
