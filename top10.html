@@ -17,6 +17,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
+/* ======== ANIMACIONES OPTIMIZADAS ======== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.animate-1 { animation-delay: 0.2s; }
+.animate-2 { animation-delay: 0.4s; }
+.animate-3 { animation-delay: 0.6s; }
+.animate-4 { animation-delay: 0.8s; }
+.animate-5 { animation-delay: 1s; }
+
 /* ======== BODY Y FLEX ======== */
 html, body {
     height: 100%;
@@ -25,7 +42,7 @@ html, body {
     flex-direction: column;
     font-family: 'Nunito', sans-serif;
     color: #ffffff;
-    background: none; /* importante quitar cualquier fondo inicial */
+    background: none;
 }
 
 .main-content {
@@ -49,6 +66,16 @@ html, body {
 
 .navbar-toggler-icon {
     filter: invert(1);
+}
+
+.nav-link {
+  color: #ffffff;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #7c7c7c;
+  transform: scale(1.1);
 }
 
 /* ======== CONTENEDOR ======== */
@@ -199,48 +226,71 @@ footer {
 
 /* MEDIA QUERIES CELULAR */
 @media (max-width: 480px) {
-    .song-image {
-        width: 120px;
-        height: 120px;
-    }
-
-    .song-title {
-        font-size: 0.9rem;
-    }
-
-    .control-row .btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-
-    .playlist-container {
-        padding: 15px;
-    }
-
-    .song-list {
-        max-height: 300px;
-    }
+    .song-image { width: 120px; height: 120px; }
+    .song-title { font-size: 0.9rem; }
+    .control-row .btn { width: 40px; height: 40px; font-size: 1rem; }
+    .playlist-container { padding: 15px; }
+    .song-list { max-height: 300px; }
 }
 
-.nav-link {
-  color: #ffffff;
-  transition: color 0.3s;
+/* ======== FORMULARIO ======== */
+.song-request-form {
+    margin: 30px auto;
+    max-width: 500px;
+    width: 90%;
+    background: #e0e0e0;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
 }
 
-.nav-link:hover {
-  color: #7c7c7c;
-  transform: scale(1.1);
+.song-request-form h5 { margin-bottom: 15px; }
+
+.song-request-form .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.song-request-form input.form-control {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: #282828;
+    color: #fff;
+}
 
+.song-request-form input.form-control::placeholder { color: #ccc; }
 
+.song-request-form button.btn-request {
+    background: #fd0d0d;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.song-request-form button.btn-request:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    .song-request-form input.form-control { padding: 8px 12px; font-size: 0.9rem; }
+    .song-request-form button.btn-request { padding: 8px 20px; font-size: 0.9rem; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top animate animate-1">
   <div class="container-fluid px-4">
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="img/logo rojo.png" alt="FM Ñanderoga Logo" class="img-fluid" style="height:50px; margin-right:10px;">
@@ -262,44 +312,44 @@ footer {
 </nav>
 
 <!-- CONTENIDO PRINCIPAL -->
-<main class="main-content">
-  <div class="playlist-container">
+<main class="main-content animate animate-2">
+  <div class="playlist-container animate animate-3">
     <h2 class="text-center mb-3">Música</h2>
 
     <!-- Portada + Título -->
-    <div class="song-display text-center">
+    <div class="song-display text-center animate animate-4">
         <img id="songImage" src="img/default.png" alt="Portada" class="song-image mb-2">
         <div id="nowPlaying" class="song-title">Selecciona una canción</div>
     
-<!-- Controles -->
-<div class="control-row">
-  <button class="btn" id="muteBtn" title="Mute"><i class="bi bi-volume-up-fill"></i></button>
-  <button class="btn" id="prevBtn"><i class="bi bi-skip-backward-fill"></i></button>
-  <button class="btn" id="playPause"><i class="bi bi-play-fill"></i></button>
-  <button class="btn" id="nextBtn"><i class="bi bi-skip-forward-fill"></i></button>
-<button class="btn" id="shareBtn" title="Compartir canción"><i class="bi bi-share-fill"></i></button>
+        <!-- Controles -->
+        <div class="control-row">
+          <button class="btn" id="muteBtn" title="Mute"><i class="bi bi-volume-up-fill"></i></button>
+          <button class="btn" id="prevBtn"><i class="bi bi-skip-backward-fill"></i></button>
+          <button class="btn" id="playPause"><i class="bi bi-play-fill"></i></button>
+          <button class="btn" id="nextBtn"><i class="bi bi-skip-forward-fill"></i></button>
+          <button class="btn" id="shareBtn" title="Compartir canción"><i class="bi bi-share-fill"></i></button>
+        </div>
 
-</div>
-
-
-    <!-- Barra de tiempo y tiempo -->
-    <div class="time-display">
-      <span id="currentTime">0:00</span>
-      <span id="duration">0:00</span>
+        <!-- Barra de tiempo y tiempo -->
+        <div class="time-display">
+          <span id="currentTime">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+        <div class="progress-container">
+          <div id="progressBar" class="progress">
+            <div id="progress"></div>
+          </div>
+        </div>
+        <p id="sharedBy" class="text-center mt-2" style="color:#ccc; font-style:italic;"></p>
     </div>
-    <div class="progress-container">
-      <div id="progressBar" class="progress">
-        <div id="progress"></div>
-      </div>
-    </div>
-    <p id="sharedBy" class="text-center mt-2" style="color:#ccc; font-style:italic;"></p>
-</div>
+    
     <!-- Audio y lista -->
     <audio id="audio"></audio>
     <div class="song-list" id="songList"></div>
   </div>
 </main>
-<div class="song-request-form mt-4 text-center">
+
+<div class="song-request-form mt-4 text-center animate animate-5">
   <h5 style="color:#000000;">Pide tu canción</h5>
   <p style="color:#000000; font-style:italic;">Pasanos el nombre de tu canción y la agregaremos a la lista</p>
   <div class="form-wrapper">
@@ -312,13 +362,41 @@ footer {
   </div>
 </div>
 
+<!-- FOOTER -->
+<footer class="animate animate-5">
+  <p>&copy; 2025 FM Ñanderoga - Música</p>
+  <p>Sitio creado por <a href="https://www.instagram.com/lauty_arcee" style="text-decoration: none; color: #ffffff;" target="_blank">Arce Lautaro</a></p>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  const form = document.getElementById("requestForm");
-  const msg = document.getElementById("formMessage");
+const navbarCollapse = document.getElementById('navbarNav');
+const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false });
 
-  form.addEventListener("submit", function(e) {
+// Cierra navbar al tocar un link
+document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navbarCollapse.classList.contains('show')) bsCollapse.hide();
+  });
+});
+
+// Cierra navbar si se toca fuera del menú (solo en móvil)
+document.addEventListener('click', (e) => {
+  if (window.innerWidth <= 1024) {
+    if (navbarCollapse.classList.contains('show') && 
+        !navbarCollapse.contains(e.target) && 
+        !e.target.classList.contains('navbar-toggler')) {
+      bsCollapse.hide();
+    }
+  }
+});
+
+// Formulario de solicitud de canciones
+const form = document.getElementById("requestForm");
+const msg = document.getElementById("formMessage");
+form.addEventListener("submit", function(e) {
     e.preventDefault();
-
     fetch(form.action, {
       method: "POST",
       body: new FormData(form),
@@ -338,120 +416,8 @@ footer {
       msg.style.color = "#f00";
       msg.textContent = "Error al enviar, intenta de nuevo.";
     });
-  });
-</script>
-
-<style>
-.song-request-form {
-    margin: 30px auto;
-    max-width: 500px;
-    width: 90%;
-    background: #e0e0e0;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-}
-
-.song-request-form h5 {
-    margin-bottom: 15px;
-}
-
-.song-request-form .form-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.song-request-form input.form-control {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    padding: 10px 15px;
-    border: none;
-    outline: none;
-    background: #282828;
-    color: #fff;
-}
-
-.song-request-form input.form-control::placeholder {
-    color: #ccc;
-}
-
-.song-request-form button.btn-request {
-    background: #fd0d0d;
-    color: #fff;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 30px;
-    font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.3s;
-}
-
-.song-request-form button.btn-request:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-@media (max-width: 480px) {
-    .song-request-form input.form-control {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-
-    .song-request-form button.btn-request {
-        padding: 8px 20px;
-        font-size: 0.9rem;
-    }
-}
-</style>
-
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2025 FM Ñanderoga - Música</p>
-  <p>Sitio creado por <a href="https://www.instagram.com/lauty_arcee" style="text-decoration: none; color: #ffffff;" target="_blank">Arce Lautaro</a></p>
-</footer>
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>const navbarCollapse = document.getElementById('navbarNav');
-const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false });
-
-// Cierra navbar al tocar un link
-document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-  link.addEventListener('click', () => {
-    if (navbarCollapse.classList.contains('show')) {
-      bsCollapse.hide();
-    }
-  });
-});
-
-// Cierra navbar si se toca fuera del menú (solo en móvil)
-document.addEventListener('click', (e) => {
-  if (window.innerWidth <= 1024) { // límite para móviles/tablets
-    if (navbarCollapse.classList.contains('show') && 
-        !navbarCollapse.contains(e.target) && 
-        !e.target.classList.contains('navbar-toggler')) {
-      bsCollapse.hide();
-    }
-  }
 });
 </script>
 <script src="playlist.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
