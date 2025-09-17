@@ -4,80 +4,84 @@
 
 const songs = [
   { name: "The Dead Dance - Lady Gaga", 
-    url: "audio/Lady Gaga - The Dead Dance.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Lady%20Gaga%20-%20The%20Dead%20Dance.mp3", 
     image: "https://th.bing.com/th?id=OIF.15X2EV6XPyCbj%2bqadU6iAA&r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
     colors: ["#e01f1f","#131212","#ff4747","#1b1b1b"], 
     themeColor: "#ff4747" },
 
   { name: "BIRDS OF A FEATHER - Billie Eilish", 
-    url: "audio/Billie Eilish - BIRDS OF A FEATHER.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Billie%20Eilish%20-%20BIRDS%20OF%20A%20FEATHER.mp3", 
     image: "https://tse3.mm.bing.net/th/id/OIP.lxGo2fKjD-lzlrjU3qkQXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
     colors: ["#0f2027","#203a43","#000000", "#0a668dff"], 
     themeColor: "#0675ddff" },
 
   { name: "DAISIES - Justin Bieber", 
-    url: "audio/Justin Bieber - DAISIES.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Justin%20Bieber%20-%20DAISIES.mp3", 
     image: "https://tse1.mm.bing.net/th/id/OIP._W4hL_2sQ0cpq7lKicRJIgHaHT?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
     colors: ["#ff7e5f","#feb47b","#ff6a88","#ffc3a0"], 
     themeColor: "#d33857ff" },
 
   { name: "Mystical Magical - Benson Boone", 
-    url: "audio/Mystical Magical - Benson Boone.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Mystical%20Magical%20-%20Benson%20Boone.mp3", 
     image: "https://topmusicarts.com/cdn/shop/files/Benson-Boone---Mystical-Magical-_Ableton-Remake_1200x1200.png?v=1747170788", 
     colors: ["#af840dff","#262c05ff","#f0b40eff","#282829ff"], 
     themeColor: "#0a8049ff" },
 
   { name: "Abracadabra - Lady Gaga", 
-    url: "audio/Abracadabra - Lady Gaga.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Abracadabra%20-%20Lady%20Gaga.mp3", 
     image: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/c9/45/40c94523-abf6-724b-a7a3-24ca0f8c95b0/25UMGIM06790.rgb.jpg/1200x1200bf-60.jpg",
     colors: ["#080808ff","#575757ff","#020202ff","#4e4e4eff"], 
     themeColor: "#6d6d6dff" },
 
   { name: "COQUETA - Grupo Frontera, Fuerza Regida", 
-    url: "audio/COQUETA - Grupo Frontera, Fuerza Regida.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/COQUETA%20-%20Grupo%20Frontera,%20Fuerza%20Regida.mp3", 
     image: "https://akamai.sscdn.co/uploadfile/letras/fotos/4/f/8/7/4f875b37b197f150f45a41e1201da2d0.jpg", 
     colors: ["#1d2671","#c33764","#1d2671","#f0c27b"], 
     themeColor: "#c33764" },
 
-  { name: "BAILE INoLVIDABLE - Bad Bunny", url: "audio/BAILE INoLVIDABLE -Bad Bunny.mp3", 
+  { name: "BAILE INoLVIDABLE - Bad Bunny", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/BAILE%20INoLVIDABLE%20-Bad%20Bunny.mp3", 
     image: "https://tse1.explicit.bing.net/th/id/OIP.JtwAk3HIctpEpKR0Sj-xSwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
     colors: ["#f12711","#f5af19","#ff4fd3ff","#f5af19"], 
     themeColor: "#f12711" },
 
   { name: "Ciudad Mágica - Tan Bionica", 
-    url: "audio/Ciudad Mágica - Tan Bionica.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Ciudad%20Magica%20-%20Tan%20Bionica.mp3", 
     image: "https://i.scdn.co/image/ab67616d0000b2735551299a2da1d16b7a3b07c2", 
     colors: ["#8360c3","#2ebf91","#8360c3","#2ebf91"], 
     themeColor: "#2ebf91" },
 
   { name: "SOLEAO - Myke Towers & Quevedo", 
-    url: "audio/SOLEAO - Myke Towers & Quevedo.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/SOLEAO%20-%20Myke%20Towers%20&%20Quevedo.mp3", 
     image: "https://images.genius.com/9c804de1d1b8e360f265aa25d11d8f61.1000x1000x1.png", 
     colors: ["#fa992aff","#ddc124ff","#dadadaff","#ffca37ff"], 
     themeColor: "#f1842bff" },
 
   { name: "Tu Misterioso Alguien - Miranda!", 
-    url: "audio/Miranda! - Tu Misterioso Alguien.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Miranda!%20-%20Tu%20Misterioso%20Alguien.mp3", 
     image: "https://th.bing.com/th/id/R.07243b13640f92048be788195f808606?rik=nuuGHc9EFjp4Ng&pid=ImgRaw&r=0", 
     sharedBy: "Música compartida por: Lautaro", 
     colors: ["#00c6ff","#0072ff","#00c6ff","#0072ff"], 
     themeColor: "#195dc4ff" },
 
   { name: "Bones - Galantis", 
-    url: "audio/Bones - Galantis.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Bones%20-%20Galantis.mp3", 
     image: "https://wololosound.com/wp-content/uploads/50949487_1773159046123312_8360443734776610816_n.jpg", 
     sharedBy: "Música compartida por: Euge", 
     colors: ["#00c6ff","#ff45e0ff","#f8c537ff","#9726e2ff"], 
     themeColor: "#be27b7ff" },
 
   { name: "Otro Atardecer - Bad Bunny", 
-    url: "audio/Otro Atardecer - Bad Bunny.mp3", 
+    url: "https://lxxhlbpdifgijjyhkudg.supabase.co/storage/v1/object/public/songs/Otro%20Atardecer%20-%20Bad%20Bunny.mp3", 
     image: "https://images.genius.com/222b691d0481ad34fac9328c757028fc.1000x1000x1.png", 
     sharedBy: "Música compartida por: Fran", 
     colors: ["#ff4800ff","#ffe345ff","#21e9f0ff","#5be226ff"], 
     themeColor: "#be8e27ff" },
 ];
 
+// --------------------------
+// resto del JS queda exactamente igual
+// --------------------------
 const audio = document.getElementById("audio"),
       playPauseBtn = document.getElementById("playPause"),
       prevBtn = document.getElementById("prevBtn"),
@@ -94,6 +98,8 @@ const audio = document.getElementById("audio"),
       shareBtn = document.getElementById("shareBtn");
 
 let currentIndex = 0, isPlaying = false, volumeState = 0;
+
+
 
 // ===========================
 // CONSTRUCCIÓN DE LISTA (USANDO FRAGMENTO)
@@ -199,26 +205,112 @@ function setProgress(e){
 function formatTime(t){ if(isNaN(t)) return "0:00"; const m=Math.floor(t/60), s=Math.floor(t%60); return `${m}:${s<10?"0"+s:s}`; }
 
 // ===========================
-// MEDIA SESSION
+// MEDIA SESSION ificacionnombre not
 // ===========================
 function updateMediaSession(){
   if(!('mediaSession' in navigator)) return;
-  let [title, artist]=songs[currentIndex].name.split(" - ");
-  navigator.mediaSession.metadata=new MediaMetadata({ title:title?.trim(), artist:(artist?.trim()||"FM Ñanderoga"), album:"Top 10 - FM Ñanderoga", artwork:[{src:songs[currentIndex].image,sizes:'96x96',type:'image/jpeg'}] });
-  ["play","pause"].forEach(a=>navigator.mediaSession.setActionHandler(a,a==="play"?playSong:pauseSong));
-  navigator.mediaSession.setActionHandler('previoustrack', ()=>{ loadSong((currentIndex-1+songs.length)%songs.length); playSong(); });
-  navigator.mediaSession.setActionHandler('nexttrack', ()=>{ loadSong((currentIndex+1)%songs.length); playSong(); });
+
+  const s = songs[currentIndex];
+  let title = s.name;
+  let artist = "FM Ñanderoga";
+
+  if (s.name.includes(" - ")) {
+    const parts = s.name.split(" - ");
+    title = parts[0].trim();
+    artist = parts[1].trim();
+  }
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: title,
+    artist: artist,
+    album: "Top Hits - FM Ñanderoga",
+    artwork: [
+      { src: s.image,   sizes: "96x96",   type: "image/png" },
+      { src: s.image,   sizes: "128x128", type: "image/png" },
+      { src: s.image,   sizes: "192x192", type: "image/png" },
+      { src: s.image,   sizes: "256x256", type: "image/png" },
+      { src: s.image,   sizes: "512x512", type: "image/png" }
+    ]
+  });
+
+  navigator.mediaSession.setActionHandler("play", playSong);
+  navigator.mediaSession.setActionHandler("pause", pauseSong);
+  navigator.mediaSession.setActionHandler("previoustrack", ()=>{ 
+    loadSong((currentIndex-1+songs.length)%songs.length); 
+    playSong(); 
+  });
+  navigator.mediaSession.setActionHandler("nexttrack", ()=>{ 
+    loadSong((currentIndex+1)%songs.length); 
+    playSong(); 
+  });
+}
+
+
+
+
+// ===========================
+// CARGAR PRIMERA CANCIÓN
+// ===========================
+window.addEventListener("load", async () => {
+  audio.preload = "auto";
+
+  const h = window.location.hash;
+  if (h.startsWith("#song-")) {
+    const idx = parseInt(h.replace("#song-", ""));
+    if (!isNaN(idx) && idx >= 0 && idx < songs.length) {
+      await preloadSongs(idx);  // precarga antes de cargar
+      loadSong(idx);
+      return;
+    }
+  }
+
+  await preloadSongs(0); // precarga todos los audios excepto el primero
+  loadSong(0);
+});
+
+// ===========================
+// FUNCION PARA PRECARGAR CANCIONES COMO BLOBS
+// ===========================
+async function preloadSongs(skipIndex) {
+  const promises = songs.map((s, i) => {
+    if (i === skipIndex) return null; // no precargar la canción actual
+    return fetch(s.url)
+      .then(res => res.blob())
+      .then(blob => {
+        s.blobUrl = URL.createObjectURL(blob);
+      })
+      .catch(err => console.error("Error precargando", s.name, err));
+  });
+
+  await Promise.all(promises);
 }
 
 // ===========================
-// CARGAR PRIMERA CANCIÓN / HASH
+// FUNCION PARA CARGAR CANCIÓN
 // ===========================
-window.addEventListener("load", ()=>{
-  audio.preload="auto";
-  const h=window.location.hash;
-  if(h.startsWith("#song-")){ const idx=parseInt(h.replace("#song-","")); if(!isNaN(idx) && idx>=0 && idx<songs.length){ loadSong(idx); return; } }
-  loadSong(0);
-});
+function loadSong(i) {
+  currentIndex = i;
+  const s = songs[i];
+
+  // usar blob si ya fue precargada
+  audio.src = s.blobUrl || s.url;
+
+  nowPlaying.textContent = s.name;
+  songImage.src = s.image;
+  sharedByEl.textContent = s.sharedBy || "";
+  document.querySelectorAll(".song-item").forEach((el, idx) =>
+    el.classList.toggle("active", idx === i)
+  );
+  if (s.colors?.length === 4) setAnimatedBackground(s.colors, s.themeColor);
+  updateStatusBarColor(s.themeColor);
+  updateMediaSession();
+}
+
+
+
+
+
+
 
 // ===========================
 // AUTO NEXT
