@@ -213,25 +213,26 @@ function updateMediaSession(){
   const s = songs[currentIndex];
   let title = s.name;
   let artist = "FM Ñanderoga";
+if (s.name.includes(" - ")) {
+  const parts = s.name.split(" - ");
+  title = parts[0].trim();
+  artist = parts[1].trim() + " • FM Ñanderoga"; // <-- Aquí se concatena
+}
 
-  if (s.name.includes(" - ")) {
-    const parts = s.name.split(" - ");
-    title = parts[0].trim();
-    artist = parts[1].trim();
-  }
 
-  navigator.mediaSession.metadata = new MediaMetadata({
-    title: title,
-    artist: artist,
-    album: "Top Hits - FM Ñanderoga",
-    artwork: [
-      { src: s.image,   sizes: "96x96",   type: "image/png" },
-      { src: s.image,   sizes: "128x128", type: "image/png" },
-      { src: s.image,   sizes: "192x192", type: "image/png" },
-      { src: s.image,   sizes: "256x256", type: "image/png" },
-      { src: s.image,   sizes: "512x512", type: "image/png" }
-    ]
-  });
+navigator.mediaSession.metadata = new MediaMetadata({
+  title: title,
+  artist: artist,
+  album: "Top Hits - FM Ñanderoga",
+  artwork: [
+    { src: s.image,   sizes: "96x96",   type: "image/png" },
+    { src: s.image,   sizes: "128x128", type: "image/png" },
+    { src: s.image,   sizes: "192x192", type: "image/png" },
+    { src: s.image,   sizes: "256x256", type: "image/png" },
+    { src: s.image,   sizes: "512x512", type: "image/png" }
+  ]
+});
+
 
   navigator.mediaSession.setActionHandler("play", playSong);
   navigator.mediaSession.setActionHandler("pause", pauseSong);
